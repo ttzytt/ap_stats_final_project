@@ -10,9 +10,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-# — 0. School dataclass — #
-
-
 @dataclass
 class School:
     name: str
@@ -157,7 +154,7 @@ def compute_admit_rate_by_income(
     return (
         joined.with_columns((pl.col(decision_col) == "Accepted").alias("accepted"))
         .group_by("income_bracket")
-        .agg((pl.sum("accepted") / pl.count() * 100).alias("admit_rate"))
+        .agg((pl.sum("accepted") / pl.len() * 100).alias("admit_rate"))
         .filter(
             (pl.col("income_bracket") != "x") & (pl.col("income_bracket") != "Blank")
         )
@@ -220,6 +217,127 @@ def sort_by_income_order(
         descending=False,
     )
 
+@dataclass
+class GroupStats:
+    income_bracket: str
+    count: int
+    total_applied: int
+    admit_rate: float
+
+
+def compute_group_admit_rate(
+    joined: pl.DataFrame,
+    schools: list[School],
+    intervals: list[tuple[int, int]],
+    min_count: int = 0,
+    decision_col: str = "decision",
+    cumulative: bool = False,
+) -> pl.DataFrame:
+    """
+    Compute admit rates aggregated over arbitrary school‐rank intervals.
+
+    Parameters:
+      - joined: DataFrame with columns ['row_id','income_bracket','school','applied','decision']
+      - schools: list of School(name, rank)
+      - intervals: list of (low, high) tuples, inclusive rank bounds for each bucket
+                   e.g. [(1,10), (11,20), (21,50)]
+      - min_count: drop any (group, bracket) with fewer than min_count samples
+      - decision_col: name of decision column (compared to "Accepted")
+      - cumulative: if False, use each (low,high) exactly;
+                    if True, for each (low,high), use all ranks ≤ high
+
+    Returns a wide DataFrame where:
+      - each row is one group (labelled either "<low>-<high>" or "1-<high>" if cumulative)
+      - each income‐bracket label is a column
+      - each cell is a Struct with fields {count: int, total_applied: int, admit_rate: float}
+
+    Only includes cells where count >= min_count.
+    """
+    # 1) Build (school, rank) DataFrame
+    school_df = pl.DataFrame(
+        {
+            "school": [s.name for s in schools],
+            "rank": [s.rank for s in schools],
+        }
+    )
+
+    # 2) Join joined with school_df to attach rank
+    merged = joined.join(school_df, on="school", how="inner")
+
+    # 3) Keep only rows where 'applied' is not null/empty
+    merged = merged.filter(pl.col("applied").is_not_null() & (pl.col("applied") != ""))
+
+    # 4) Add boolean accepted column
+    merged = merged.with_columns((pl.col(decision_col) == "Accepted").alias("accepted"))
+
+    long_records = []
+    for low, high in intervals:
+        if cumulative:
+            cond = pl.col("rank") <= high
+            label = f"1-{high}"
+        else:
+            cond = (pl.col("rank") >= low) & (pl.col("rank") <= high)
+            label = f"{low}-{high}"
+
+        subset = merged.filter(cond)
+        if subset.is_empty():
+            continue
+
+        # 5) Group by income_bracket → count & accepted_sum
+        grp = (
+            subset.group_by("income_bracket")
+            .agg([pl.len().alias("count"), pl.sum("accepted").alias("accepted_sum")])
+            .filter(pl.col("count") >= min_count)
+        )
+        if grp.is_empty():
+            continue
+
+        # 6) Compute total_applied for this group
+        total_applied = grp.select(pl.sum("count").alias("total_applied"))[
+            "total_applied"
+        ][0]
+
+        # 7) Build a record for each bracket
+        for row in grp.iter_rows(named=True):
+            income_br = row["income_bracket"]
+            count = row["count"]
+            accepted_sum = row["accepted_sum"]
+            admit_rate = (accepted_sum / count * 100) if count > 0 else 0.0
+
+            long_records.append(
+                {
+                    "group_label": label,
+                    "income_bracket": income_br,
+                    "count": count,
+                    "total_applied": total_applied,
+                    "admit_rate": admit_rate,
+                }
+            )
+
+    if not long_records:
+        return pl.DataFrame([], schema=[])
+
+    # 8) Build long-format DataFrame
+    df_long = pl.DataFrame(long_records)
+
+    # 9) Assemble a Struct column for count/total_applied/admit_rate
+    df_with_struct = df_long.with_columns(
+        pl.struct(["count", "total_applied", "admit_rate"]).alias("stats")
+    )
+
+    # 10) Pivot so each income_bracket becomes a Struct column
+    df_wide = df_with_struct.pivot(
+        on="income_bracket",
+        index="group_label",
+        values="stats",
+        aggregate_function="first",
+    )
+
+    # 11) Reorder columns: group_label first, then income brackets by FamilyIncome order
+    ordered_labels = [fi.label() for fi in FamilyIncome]
+    present_labels = [lbl for lbl in ordered_labels if lbl in df_wide.columns]
+    return df_wide.select(["group_label"] + present_labels)
+
 
 # — 7. Plotting — #
 
@@ -233,7 +351,7 @@ def plot_admit_rate(
     Scatter plot of admit_rate vs. income_bracket.
     """
     fig = px.scatter(
-        rates_sorted.to_pandas(),
+        rates_sorted,
         x="income_bracket",
         y="admit_rate",
         title=title,
@@ -277,11 +395,10 @@ def plot_admit_rate_matrix(
     )
 
     # 3) Convert to pandas for Plotly Express
-    pdf = long_df.to_pandas()
 
     # 4) Build line plot
     fig = px.line(
-        pdf,
+        long_df,
         x="income_bracket",
         y="admit_rate",
         color="school",
@@ -299,5 +416,89 @@ def plot_admit_rate_matrix(
         xaxis=dict(tickangle=-45),
         legend_title_text="School",
     )
+
+    return fig
+
+
+def plot_grouped_admit_rate_wide(
+    wide_df: pl.DataFrame,
+    income_order: list[str],
+    title: str = "Grouped Admission Rates by Income Bracket",
+) -> go.Figure:
+    """
+    Given a wide Polars DataFrame `wide_df` where:
+      - each row is a group_label
+      - each income-bracket column is a Struct with fields {count, total_applied, admit_rate}
+    this function:
+      1) Renames each struct’s fields to include the bracket name as suffix
+      2) Unnests each struct column individually, avoiding duplicate column names
+      3) Uses Polars’ melt to pivot admit_rate columns into long form
+      4) Plots a Plotly line chart directly from Polars, with:
+           • x = income_bracket (ordered by `income_order`)
+           • y = admit_rate
+           • color = group_label
+    """
+    # 1) Identify all struct columns (all except "group_label")
+    struct_cols = [c for c in wide_df.columns if c != "group_label"]
+    if not struct_cols:
+        return go.Figure()
+
+    df = wide_df
+
+    # 2) For each struct column, rename its fields to avoid collisions
+    for bracket in struct_cols:
+        new_fields = [
+            f"{bracket}_count",
+            f"{bracket}_total_applied",
+            f"{bracket}_admit_rate",
+        ]
+        df = df.with_columns(
+            df[bracket].struct.rename_fields(new_fields).alias(bracket)
+        )
+
+    # 3) Unnest each struct column one by one
+    for bracket in struct_cols:
+        df = df.unnest(bracket)
+
+    # 4) Identify all admit_rate columns (they end with "_admit_rate")
+    admit_rate_cols = [col for col in df.columns if col.endswith("_admit_rate")]
+
+    # 5) Melt admit_rate columns into long form using Polars
+    df_long = df.melt(
+        id_vars=["group_label"],
+        value_vars=admit_rate_cols,
+        variable_name="income_bracket_field",
+        value_name="admit_rate",
+    )
+
+    # 6) Extract raw income_bracket by stripping the "_admit_rate" suffix
+    df_long = df_long.with_columns(
+        pl.col("income_bracket_field")
+        .str.replace("_admit_rate$", "", literal=False)
+        .alias("income_bracket")
+    )
+
+    # 7) Cast income_bracket to categorical for plotly ordering
+    df_long = df_long.with_columns(
+        pl.col("income_bracket").cast(pl.Categorical).alias("income_bracket")
+    )
+
+    # 8) Plot using Plotly Express directly from Polars
+    fig = px.line(
+        df_long.to_pandas(),  # Plotly Express supports Polars too; if using a version that supports it, pass df_long directly instead of .to_pandas()
+        x="income_bracket",
+        y="admit_rate",
+        color="group_label",
+        title=title,
+        labels={
+            "income_bracket": "Income Bracket",
+            "admit_rate": "Admission Rate (%)",
+            "group_label": "Rank Group",
+        },
+        category_orders={"income_bracket": income_order},
+    )
+
+    # 9) Rotate x-axis labels for readability
+    fig.update_layout(xaxis=dict(tickangle=-45), legend_title_text="Rank Group")
 
     return fig

@@ -1,7 +1,7 @@
 Princeton University
 Harvard University
-Columbia University
 Massachusetts Institute of Technology
+Columbia University
 Yale University
 Stanford University
 University of Chicago
@@ -43,11 +43,60 @@ Case Western Reserve University
 William & Mary
 Northeastern University
 Tulane University
-University of Wisconsin - Madison
+University of Wisconsin
 Villanova University
-University of Illinois - Urbana-Champaign
+University of Illinois at Urbana-Champaign
 University of Texas - Austin
 Lehigh University
 Pepperdine University
 Rensselaer Polytechnic Institute
 University of Georgia
+The Ohio State University
+Santa Clara University
+Syracuse University
+Florida State University
+Penn State
+Purdue University
+University of Miami
+University of Pittsburgh
+Rutgers University
+University of Washington
+Loyola Marymount University
+Southern Methodist University
+University of Connecticut
+University of Maryland - College Park
+University of Massachusetts - Amherst
+Worcester Polytechnic Institute
+Clemson University
+George Washington University
+Texas A&M University
+University of Minnesota - Twin Cities
+Fordham University
+Stevens Institute of Technology
+Virginia Tech
+American University
+Brigham Young University
+Baylor University
+Binghamton University (SUNY)
+Gonzaga University
+Indiana University - Bloomington
+University at Buffalo (SUNY)
+Colorado School of Mines
+Elon University
+Marquette University
+Michigan State University
+North Carolina State University (Raleigh)
+University of California - Santa Cruz
+University of Iowa
+Clark University
+Miami University (OH)
+Stony Brook University (SUNY)
+University of California - Riverside
+University of Delaware
+University of San Diego
+Drexel University
+New Jersey Institute of Technology
+Saint Louis University
+Texas Christian University
+University of Denver
+University of San Francisco
