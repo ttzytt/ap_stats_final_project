@@ -22,10 +22,13 @@ def load_ranked_schools(path: str) -> list[School]:
     """
     ranked: list[School] = []
     with open(path, "r", encoding="utf8") as f:
-        for idx, line in enumerate(f, start=1):
+        i = 1
+        for line in f:
             name = line.strip()
+            if '[not included]' in name : continue
             if name:
-                ranked.append(School(name=name, rank=idx))
+                ranked.append(School(name=name, rank=i))
+                i += 1
     return ranked
 
 
