@@ -1,7 +1,7 @@
 import polars as pl
 from dataclasses import dataclass
 from organization import School, FamilyIncome
-
+from scipy.stats import chi2_contingency
 
 def compute_admit_rate_by_income(
     joined: pl.DataFrame,
@@ -196,3 +196,79 @@ def compute_group_admit_rate(
     ordered_labels = [fi.label() for fi in FamilyIncome]
     present_labels = [lbl for lbl in ordered_labels if lbl in df_wide.columns]
     return df_wide.select(["group_label"] + present_labels)
+
+
+@dataclass
+class Chi2Stats:
+    statistic: float
+    p_value: float
+    dof: int
+    expected_freq: list[list[float]]
+
+
+def compute_chi2_by_group(
+    joined: pl.DataFrame,
+    schools: list,
+    intervals: list[tuple[int, int]],
+    decision_col: str = "decision",
+    cumulative: bool = False,
+) -> pl.DataFrame:
+    school_df = pl.DataFrame(
+        {"school": [s.name for s in schools], "rank": [s.rank for s in schools]}
+    )
+
+    merged = joined.join(school_df, on="school", how="inner")
+    merged = merged.filter(pl.col("applied").is_not_null() & (pl.col("applied") != ""))
+    merged = merged.with_columns((pl.col(decision_col) == "Accepted").alias("accepted"))
+
+    results = []
+
+    for low, high in intervals:
+        if cumulative:
+            cond = pl.col("rank") <= high
+            label = f"1-{high}"
+        else:
+            cond = (pl.col("rank") >= low) & (pl.col("rank") <= high)
+            label = f"{low}-{high}"
+
+        subset = merged.filter(cond)
+        if subset.is_empty():
+            continue
+
+        contingency = (
+            subset.group_by(["income_bracket", "accepted"])
+            .agg(pl.len().alias("n"))
+            .pivot(
+                on="accepted",
+                index="income_bracket",
+                values="n",
+                aggregate_function="first",
+            )
+            .fill_null(0)
+        )
+
+        print(contingency)
+
+        for truth_val in ["true", "false"]:
+            if truth_val not in contingency.columns:
+                contingency = contingency.with_columns(pl.lit(0).alias(truth_val))
+
+        observed = (
+            contingency.sort("income_bracket").select(["false", "true"]).to_numpy()
+        )
+        chi2, p_val, dof, expected = chi2_contingency(observed)
+        result = Chi2Stats(
+            statistic=chi2,
+            p_value=p_val,
+            dof=dof,
+            expected_freq=expected.tolist(),
+        )
+
+        results.append(
+            {
+                "group_label": label,
+                "chi2": result.__dict__,
+            }
+        )
+
+    return pl.DataFrame(results)

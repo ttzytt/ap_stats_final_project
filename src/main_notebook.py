@@ -1,7 +1,5 @@
 import marimo
 
-from src.organization import join_applied_and_decided
-
 __generated_with = "0.13.10"
 app = marimo.App(width="medium")
 
@@ -17,6 +15,7 @@ def _():
     from analysis import (
         compute_admit_rate_matrix,
         compute_group_admit_rate, 
+        compute_chi2_by_group,
     )
 
     from organization import  (
@@ -32,13 +31,15 @@ def _():
     from visualization import (
         plot_admit_rate, 
         plot_admit_rate_matrix, 
-        plot_grouped_admit_rate_wide
+        plot_grouped_admit_rate_wide,
+        plot_chi2_pvalues
     )
 
     return (
         FamilyIncome,
         build_apply_and_decision_cols,
         compute_admit_rate_matrix,
+        compute_chi2_by_group,
         compute_group_admit_rate,
         join_applied_and_decided,
         load_ranked_schools,
@@ -137,17 +138,25 @@ def _(income_labels, matrix, mo, plot_admit_rate_matrix):
 
 @app.cell
 def _(compute_group_admit_rate, joined, schools):
-    group_admit_rate = compute_group_admit_rate(joined, schools, [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)], 20)
+    school_grp_interv = [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)]
+    group_admit_rate = compute_group_admit_rate(joined, schools, school_grp_interv, 20)
     group_admit_rate
-    return (group_admit_rate,)
+    return group_admit_rate, school_grp_interv
 
 
 @app.cell
 def _(group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
     fig2 = plot_grouped_admit_rate_wide(group_admit_rate, income_labels)
-    fig2.update_traces(visible='legendonly')
+    # fig2.update_traces(visible='legendonly')
     fig2.write_html("grouped_admit_rate.html")
     mo.ui.plotly(fig2)
+    return
+
+
+@app.cell
+def _(compute_chi2_by_group, joined, school_grp_interv, schools):
+    chi_sq = compute_chi2_by_group(joined, schools, school_grp_interv)
+    chi_sq
     return
 
 
@@ -163,7 +172,7 @@ def _(
     cum_group_admit_rate = compute_group_admit_rate(joined, schools, [(1, 5), (6, 10), (11, 20), (21, 30), (31, 50), (51, 70), (71, 100)], 20, cumulative = True)
 
     fig3 = plot_grouped_admit_rate_wide(cum_group_admit_rate, income_labels)
-    fig3.update_traces(visible='legendonly')
+    # fig3.update_traces(visible='legendonly')
     mo.ui.plotly(fig3)
     return
 

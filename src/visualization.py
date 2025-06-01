@@ -163,3 +163,52 @@ def plot_grouped_admit_rate_wide(
     fig.update_layout(xaxis=dict(tickangle=-45), legend_title_text="Rank Group")
 
     return fig
+
+
+def plot_chi2_pvalues(
+    df: pl.DataFrame,
+    title: str = "Chi-Square Test p-values by School Group",
+) -> go.Figure:
+    """
+    Given a Polars DataFrame with columns:
+      - 'group_label': str
+      - 'chi2': struct with fields including 'p_value'
+
+    Returns a Plotly line chart where:
+      - x-axis = group_label (ordered numerically)
+      - y-axis = p_value
+    """
+    # Extract 'p_value' field
+    df_extracted = df.with_columns(pl.col("chi2").struct.field("p_value"))
+
+    # Extract order from group_label: assume format "low-high"
+    def parse_low(group_label: str) -> int:
+        return int(group_label.split("-")[0])
+
+    # Sort and get correct x-axis order
+    ordered_labels = sorted(df_extracted["group_label"].to_list(), key=parse_low)
+
+    # Convert to pandas for plotting
+    pdf = df_extracted.to_pandas()
+
+    # Plot with Plotly Express
+    fig = px.line(
+        pdf,
+        x="group_label",
+        y="p_value",
+        title=title,
+        labels={
+            "group_label": "Rank Group",
+            "p_value": "p-value",
+        },
+        category_orders={"group_label": ordered_labels},
+        markers=True,
+    )
+
+    fig.update_layout(
+        xaxis=dict(tickangle=-45),
+        yaxis=dict(title="p-value"),
+        legend_title_text="",
+    )
+
+    return fig
