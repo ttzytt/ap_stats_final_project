@@ -1,7 +1,8 @@
 import plotly.graph_objects as go
 import plotly.express as px
 import polars as pl
-
+import numpy as np 
+from organization import School, FamilyIncome
 
 def plot_admit_rate(
     rates_sorted: pl.DataFrame,
@@ -209,6 +210,127 @@ def plot_chi2_pvalues(
         xaxis=dict(tickangle=-45),
         yaxis=dict(title="p-value"),
         legend_title_text="",
+    )
+
+    return fig
+
+
+def plot_applicant_counts(
+    joined: pl.DataFrame,
+    schools: list[School],
+    intervals: list[tuple[int, int]],
+    plot_type: str = "line",
+) -> go.Figure:
+    """
+    Plots the number of applicants per rank‐group interval.
+
+    Inputs:
+      - joined: Polars DataFrame with columns ["school","applied",…]
+      - schools: list of School(name, rank)
+      - intervals: list of (low, high) rank intervals
+      - plot_type: either "line" or "scatter"
+
+    Behavior:
+      1. Attach `rank` to each row, filter out null/empty `applied`.
+      2. For each (low,high) in `intervals`, count how many rows have
+         rank ∈ [low, high].
+      3. Build a small DataFrame with columns ["group_label", "count"].
+      4. If plot_type == "line": draw a lines+markers plot of `count`
+         vs. `group_label`.
+         If plot_type == "scatter":
+           • draw a scatter of `count` vs. `group_label`
+           • fit a simple linear regression on the numeric index (0,1,2,…)
+             vs. `count`
+           • overlay the regression line, compute R², annotate equation & R².
+    """
+    # 1) Attach rank → same as in generate_intervals_by_applicants
+    school_df = pl.DataFrame(
+        {
+            "school": [s.name for s in schools],
+            "rank": [s.rank for s in schools],
+        }
+    )
+    merged = joined.join(school_df, on="school", how="inner").filter(
+        pl.col("applied").is_not_null() & (pl.col("applied") != "")
+    )
+
+    # 2) Count applicants per interval
+    labels: list[str] = []
+    counts: list[int] = []
+    for low, high in intervals:
+        label = f"{low}-{high}"
+        subset = merged.filter((pl.col("rank") >= low) & (pl.col("rank") <= high))
+        cnt = subset.height
+        labels.append(label)
+        counts.append(cnt)
+
+    # 3) Build a small Polars DataFrame (if needed later)
+    df_counts = pl.DataFrame({"group_label": labels, "count": counts})
+
+    # 4) Prepare X‐axis numeric indices for regression
+    x_indices = np.arange(len(labels))
+    y_values = np.array(counts, dtype=float)
+
+    # 5) Build the Plotly Figure
+    fig = go.Figure()
+
+    if plot_type == "line":
+        # Simple line+marker plot
+        fig.add_trace(
+            go.Scatter(
+                x=labels,
+                y=counts,
+                mode="lines+markers",
+                name="Number of Applicants",
+            )
+        )
+    else:
+        # Scatter plot
+        fig.add_trace(
+            go.Scatter(
+                x=labels,
+                y=counts,
+                mode="markers",
+                name="Applicants",
+            )
+        )
+
+        # Compute best‐fit line: y = m·x + b, on numeric indices
+        slope, intercept = np.polyfit(x_indices, y_values, 1)
+        y_pred = slope * x_indices + intercept
+
+        # Compute R²
+        r_matrix = np.corrcoef(y_values, y_pred)
+        r2 = r_matrix[0, 1] ** 2 if r_matrix.size > 1 else 0.0
+
+        # Overlay the best‐fit line
+        fig.add_trace(
+            go.Scatter(
+                x=labels,
+                y=y_pred,
+                mode="lines",
+                name="Best-fit Line",
+            )
+        )
+
+        # Annotate equation & R² in the corner
+        eq_text = f"y = {slope:.2f}·x + {intercept:.2f}  (R-sq = {r2:.3f})"
+        fig.add_annotation(
+            x=0.05,
+            y=0.95,
+            xref="paper",
+            yref="paper",
+            text=eq_text,
+            showarrow=False,
+            font=dict(size=12),
+        )
+
+    # 6) Layout tweaks
+    fig.update_layout(
+        title="Number of Applicants by Rank Group",
+        xaxis_title="Rank Group",
+        yaxis_title="Number of Applicants",
+        xaxis=dict(tickangle=-45),
     )
 
     return fig

@@ -272,3 +272,91 @@ def compute_chi2_by_group(
         )
 
     return pl.DataFrame(results)
+
+
+def generate_intervals_by_applicants(
+    joined: pl.DataFrame, schools: list[School], first_interval: tuple[int, int]
+) -> tuple[list[tuple[int, int]], list[int]]:
+    """
+    Partition ranks into consecutive intervals so that each interval
+    has (approximately) the same total number of applicants as the first_interval.
+
+    Parameters:
+      - joined: Polars DataFrame with at least columns ["school", "applied"]
+                (one row per applicant‐to‐school record).
+      - schools: list of School(name, rank), sorted ascending by rank.
+      - first_interval: (low, high) for the first group, e.g. (1, 5).
+
+    Returns:
+      A tuple of:
+        - intervals: list of (low, high) rank‐intervals (first is first_interval).
+        - counts:    list of applicant counts for each corresponding interval.
+    """
+    # 1) Build (school → rank) mapping, then join & filter out blank 'applied'
+    school_df = pl.DataFrame(
+        {
+            "school": [s.name for s in schools],
+            "rank": [s.rank for s in schools],
+        }
+    )
+    merged = joined.join(school_df, on="school", how="inner").filter(
+        pl.col("applied").is_not_null() & (pl.col("applied") != "")
+    )
+
+    # 2) Count applicants per rank
+    rank_counts_df = merged.group_by("rank").agg(pl.count().alias("count"))
+    rank_counts = {
+        row["rank"]: row["count"] for row in rank_counts_df.iter_rows(named=True)
+    }
+
+    # 3) Sorted list of ranks present in `schools`
+    sorted_ranks = sorted(s.rank for s in schools)
+
+    def count_for_rank(r: int) -> int:
+        return rank_counts.get(r, 0)
+
+    # 4) Compute target = total applicants in first_interval
+    low0, high0 = first_interval
+    target = sum(count_for_rank(r) for r in sorted_ranks if low0 <= r <= high0)
+
+    intervals: list[tuple[int, int]] = [first_interval]
+    counts: list[int] = []
+    first_count = sum(count_for_rank(r) for r in sorted_ranks if low0 <= r <= high0)
+    counts.append(first_count)
+
+    # 5) Build subsequent intervals
+    start = high0 + 1
+    max_rank = max(sorted_ranks)
+
+    while start <= max_rank:
+        cumulative = 0
+        best_diff = None
+        chosen_end = start
+
+        for r in sorted_ranks:
+            if r < start:
+                continue
+            if r > max_rank:
+                break
+            cumulative += count_for_rank(r)
+            diff = abs(cumulative - target)
+
+            if best_diff is None or diff < best_diff:
+                best_diff = diff
+                chosen_end = r
+
+            if cumulative >= target:
+                break
+
+        if cumulative < target:
+            chosen_end = max_rank
+
+        intervals.append((start, chosen_end))
+        interval_count = sum(
+            count_for_rank(r) for r in sorted_ranks if start <= r <= chosen_end
+        )
+        counts.append(interval_count)
+
+        start = chosen_end + 1
+
+    return intervals, counts
