@@ -18,7 +18,7 @@ def _():
         compute_group_admit_rate,
         compute_chi2_by_group,
         generate_intervals_by_applicants,
-        compute_correlation_by_group
+        compute_income_admit_corr_by_group
     )
 
     from organization import (
@@ -45,8 +45,8 @@ def _():
         build_apply_and_decision_cols,
         compute_admit_rate_matrix,
         compute_chi2_by_group,
-        compute_correlation_by_group,
         compute_group_admit_rate,
+        compute_income_admit_corr_by_group,
         generate_intervals_by_applicants,
         join_applied_and_decided,
         load_ranked_schools,
@@ -238,8 +238,8 @@ def _(chi_sq, figs, mo, plot_chi2_pvalues):
 
 
 @app.cell
-def _(compute_correlation_by_group, joined, sc_dyn_intervs, schools):
-    correlation = compute_correlation_by_group(joined, schools, sc_dyn_intervs)
+def _(compute_income_admit_corr_by_group, joined, sc_dyn_intervs, schools):
+    correlation = compute_income_admit_corr_by_group(joined, schools, sc_dyn_intervs)
     correlation
     return (correlation,)
 

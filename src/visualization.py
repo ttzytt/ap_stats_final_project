@@ -436,7 +436,7 @@ def plot_correlation_by_group(
     # 10) Final layout adjustments
     fig.update_layout(
         xaxis=dict(tickangle=-45),
-        yaxis=dict(title="Pearson r", range=[-1, 1]),
+        yaxis=dict(title="Pearson r"),
         legend_title_text="p < 0.05",
     )
 
