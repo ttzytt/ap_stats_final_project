@@ -1,5 +1,7 @@
 import marimo
 
+from src.organization import join_applied_and_decided
+
 __generated_with = "0.13.10"
 app = marimo.App(width="medium")
 
@@ -13,21 +15,26 @@ def _():
     # Ensure the current directory is in the Python path
     sys.path.append(".")
     from analysis import (
-        School,
-        load_survey_data,
-        load_ranked_schools,
-        FamilyIncome,
+        compute_admit_rate_matrix,
+        compute_group_admit_rate, 
+    )
+
+    from organization import  (
+        School, 
+        load_survey_data, 
+        load_ranked_schools, 
+        FamilyIncome, 
         build_apply_and_decision_cols,
         unpivot_applied_or_decided,
-        join_applied_and_decided,
-        compute_admit_rate_by_income,
-        sort_by_income_order,
-        plot_admit_rate,
-        compute_admit_rate_matrix,
-        plot_admit_rate_matrix,
-        compute_group_admit_rate, 
+        join_applied_and_decided
+    )
+
+    from visualization import (
+        plot_admit_rate, 
+        plot_admit_rate_matrix, 
         plot_grouped_admit_rate_wide
     )
+
     return (
         FamilyIncome,
         build_apply_and_decision_cols,
