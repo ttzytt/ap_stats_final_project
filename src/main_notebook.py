@@ -6,41 +6,45 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
-    import marimo as mo 
+    import marimo as mo
     import polars as pl
     import sys
     import os
+
     # Ensure the current directory is in the Python path
     sys.path.append(".")
     from analysis import (
         compute_admit_rate_matrix,
-        compute_group_admit_rate, 
+        compute_group_admit_rate,
         compute_chi2_by_group,
+        generate_intervals_by_applicants,
     )
 
-    from organization import  (
-        School, 
-        load_survey_data, 
-        load_ranked_schools, 
-        FamilyIncome, 
+    from organization import (
+        School,
+        load_survey_data,
+        load_ranked_schools,
+        FamilyIncome,
         build_apply_and_decision_cols,
         unpivot_applied_or_decided,
-        join_applied_and_decided
+        join_applied_and_decided,
     )
 
     from visualization import (
-        plot_admit_rate, 
-        plot_admit_rate_matrix, 
+        plot_admit_rate,
+        plot_admit_rate_matrix,
         plot_grouped_admit_rate_wide,
-        plot_chi2_pvalues
+        plot_chi2_pvalues,
+        plot_applicant_counts,
+        plot_applicant_bar_scaled,
     )
-
     return (
         FamilyIncome,
         build_apply_and_decision_cols,
         compute_admit_rate_matrix,
         compute_chi2_by_group,
         compute_group_admit_rate,
+        generate_intervals_by_applicants,
         join_applied_and_decided,
         load_ranked_schools,
         load_survey_data,
@@ -48,6 +52,9 @@ def _():
         os,
         pl,
         plot_admit_rate_matrix,
+        plot_applicant_bar_scaled,
+        plot_applicant_counts,
+        plot_chi2_pvalues,
         plot_grouped_admit_rate_wide,
         unpivot_applied_or_decided,
     )
@@ -55,10 +62,11 @@ def _():
 
 @app.cell
 def _(load_ranked_schools, load_survey_data, os):
-    data_path = os.path.join(os.path.dirname(__file__), '..', 'data')
-    schools = load_ranked_schools(os.path.join(data_path, 'school_rank.txt'))
-    survey_df = load_survey_data(os.path.join(data_path, '2020.xlsx'), 'Raw Data')
-    return schools, survey_df
+    data_path = os.path.join(os.path.dirname(__file__), "..", "data")
+    schools = load_ranked_schools(os.path.join(data_path, "school_rank.txt"))
+    survey_df = load_survey_data(os.path.join(data_path, "2020.xlsx"), "Raw Data")
+    figs = []
+    return figs, schools, survey_df
 
 
 @app.cell
@@ -71,13 +79,9 @@ def _(schools, survey_df):
 def _(FamilyIncome, pl, survey_df):
     income_col = "Approximately how much is your family's total yearly income?"
     income_labels = [fi.label() for fi in FamilyIncome]
-    sel_df = (
-        survey_df
-        .with_columns(
-            pl.col(income_col).alias("income_bracket")
-        )
-        .filter(pl.col("income_bracket").is_in(income_labels))
-    )
+    sel_df = survey_df.with_columns(
+        pl.col(income_col).alias("income_bracket")
+    ).filter(pl.col("income_bracket").is_in(income_labels))
     sel_df
     return income_labels, sel_df
 
@@ -96,7 +100,7 @@ def _(apply_cols, sel_df, unpivot_applied_or_decided):
         sel_df,
         cols_to_melt=apply_cols,
         prefix=apply_prefix,
-        new_col_name="applied"
+        new_col_name="applied",
     )
     applied
     return (applied,)
@@ -108,7 +112,10 @@ def _(decision_cols, sel_df, unpivot_applied_or_decided):
         "Select your admission decision results for each school you applied to: ["
     )
     decided = unpivot_applied_or_decided(
-        sel_df, cols_to_melt=decision_cols, prefix=decision_prefix, new_col_name="decision"
+        sel_df,
+        cols_to_melt=decision_cols,
+        prefix=decision_prefix,
+        new_col_name="decision",
     )
     decided
     return (decided,)
@@ -122,6 +129,45 @@ def _(applied, decided, join_applied_and_decided):
 
 
 @app.cell
+def _(figs, joined, mo, plot_applicant_counts, schools):
+    fixed_interv_sz = 10
+    fixed_intervs = [
+        (i, i + fixed_interv_sz - 1)
+        for i in range(1, len(schools) + 1, fixed_interv_sz)
+    ]
+    figs.append(plot_applicant_counts(joined, schools, fixed_intervs, "scatter"))
+    mo.ui.plotly(figs[-1])
+    return (fixed_intervs,)
+
+
+@app.cell
+def _(figs, fixed_intervs, joined, mo, plot_applicant_counts, schools):
+    figs.append(
+        plot_applicant_counts(
+            joined, schools, fixed_intervs, "scatter", "exponential"
+        )
+    )
+    mo.ui.plotly(figs[-1])
+    return
+
+
+@app.cell
+def _(generate_intervals_by_applicants, joined, schools):
+    sc_dyn_intervs, sc_dyn_interv_cnts = generate_intervals_by_applicants(
+        joined, schools, (1, 5)
+    )
+    sc_dyn_intervs, sc_dyn_interv_cnts
+    return sc_dyn_interv_cnts, sc_dyn_intervs
+
+
+@app.cell
+def _(figs, mo, plot_applicant_bar_scaled, sc_dyn_interv_cnts, sc_dyn_intervs):
+    figs.append(plot_applicant_bar_scaled(sc_dyn_intervs, sc_dyn_interv_cnts))
+    mo.ui.plotly(figs[-1])
+    return
+
+
+@app.cell
 def _(compute_admit_rate_matrix, joined):
     matrix = compute_admit_rate_matrix(joined)
     matrix
@@ -129,19 +175,21 @@ def _(compute_admit_rate_matrix, joined):
 
 
 @app.cell
-def _(income_labels, matrix, mo, plot_admit_rate_matrix):
-    fig = plot_admit_rate_matrix(matrix, income_labels)
-    fig.update_traces(visible='legendonly')
-    mo.ui.plotly(fig)
+def _(figs, income_labels, matrix, mo, plot_admit_rate_matrix):
+    figs.append(plot_admit_rate_matrix(matrix, income_labels))
+    figs[-1].update_traces(visible="legendonly")
+    mo.ui.plotly(figs[-1])
     return
 
 
 @app.cell
-def _(compute_group_admit_rate, joined, schools):
-    school_grp_interv = [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)]
-    group_admit_rate = compute_group_admit_rate(joined, schools, school_grp_interv, 20)
+def _(compute_group_admit_rate, joined, sc_dyn_intervs, schools):
+    # school_grp_interv = [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)]
+    group_admit_rate = compute_group_admit_rate(
+        joined, schools, sc_dyn_intervs, 20
+    )
     group_admit_rate
-    return group_admit_rate, school_grp_interv
+    return (group_admit_rate,)
 
 
 @app.cell
@@ -154,26 +202,40 @@ def _(group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
 
 
 @app.cell
-def _(compute_chi2_by_group, joined, school_grp_interv, schools):
-    chi_sq = compute_chi2_by_group(joined, schools, school_grp_interv)
+def _(compute_chi2_by_group, joined, sc_dyn_intervs, schools):
+    chi_sq = compute_chi2_by_group(joined, schools, sc_dyn_intervs)
     chi_sq
+    return (chi_sq,)
+
+
+@app.cell
+def _(chi_sq, figs, mo, plot_chi2_pvalues):
+    figs.append(plot_chi2_pvalues(chi_sq))
+    mo.ui.plotly(figs[-1])
     return
 
 
 @app.cell
 def _(
     compute_group_admit_rate,
+    figs,
     income_labels,
     joined,
     mo,
     plot_grouped_admit_rate_wide,
     schools,
 ):
-    cum_group_admit_rate = compute_group_admit_rate(joined, schools, [(1, 5), (6, 10), (11, 20), (21, 30), (31, 50), (51, 70), (71, 100)], 20, cumulative = True)
+    cum_group_admit_rate = compute_group_admit_rate(
+        joined,
+        schools,
+        [(1, 5), (6, 10), (11, 20), (21, 30), (31, 50), (51, 70), (71, 100)],
+        20,
+        cumulative=True,
+    )
 
-    fig3 = plot_grouped_admit_rate_wide(cum_group_admit_rate, income_labels)
+    figs.append(plot_grouped_admit_rate_wide(cum_group_admit_rate, income_labels))
     # fig3.update_traces(visible='legendonly')
-    mo.ui.plotly(fig3)
+    mo.ui.plotly(figs[-1])
     return
 
 

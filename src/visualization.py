@@ -220,117 +220,140 @@ def plot_applicant_counts(
     schools: list[School],
     intervals: list[tuple[int, int]],
     plot_type: str = "line",
+    fit_type: str = "linear"
 ) -> go.Figure:
     """
-    Plots the number of applicants per rank‐group interval.
+    Plots number of applicants per rank‐group interval. Offers:
+      - plot_type: "line" or "scatter"
+      - fit_type: "linear" or "exponential" (applies only if plot_type == "scatter")
 
-    Inputs:
-      - joined: Polars DataFrame with columns ["school","applied",…]
-      - schools: list of School(name, rank)
-      - intervals: list of (low, high) rank intervals
-      - plot_type: either "line" or "scatter"
-
-    Behavior:
-      1. Attach `rank` to each row, filter out null/empty `applied`.
-      2. For each (low,high) in `intervals`, count how many rows have
-         rank ∈ [low, high].
-      3. Build a small DataFrame with columns ["group_label", "count"].
-      4. If plot_type == "line": draw a lines+markers plot of `count`
-         vs. `group_label`.
-         If plot_type == "scatter":
-           • draw a scatter of `count` vs. `group_label`
-           • fit a simple linear regression on the numeric index (0,1,2,…)
-             vs. `count`
-           • overlay the regression line, compute R², annotate equation & R².
+    If fit_type == "exponential", fits y = a * exp(b * x) on numeric index.
     """
-    # 1) Attach rank → same as in generate_intervals_by_applicants
-    school_df = pl.DataFrame(
-        {
-            "school": [s.name for s in schools],
-            "rank": [s.rank for s in schools],
-        }
-    )
-    merged = joined.join(school_df, on="school", how="inner").filter(
-        pl.col("applied").is_not_null() & (pl.col("applied") != "")
+    # 1) Attach rank
+    school_df = pl.DataFrame({
+        "school": [s.name for s in schools],
+        "rank":   [s.rank for s in schools],
+    })
+    merged = (
+        joined
+        .join(school_df, on="school", how="inner")
+        .filter(pl.col("applied").is_not_null() & (pl.col("applied") != ""))
     )
 
     # 2) Count applicants per interval
     labels: list[str] = []
     counts: list[int] = []
-    for low, high in intervals:
+    for (low, high) in intervals:
         label = f"{low}-{high}"
         subset = merged.filter((pl.col("rank") >= low) & (pl.col("rank") <= high))
         cnt = subset.height
         labels.append(label)
         counts.append(cnt)
 
-    # 3) Build a small Polars DataFrame (if needed later)
-    df_counts = pl.DataFrame({"group_label": labels, "count": counts})
+    x_idx = np.arange(len(labels))
+    y = np.array(counts, dtype=float)
 
-    # 4) Prepare X‐axis numeric indices for regression
-    x_indices = np.arange(len(labels))
-    y_values = np.array(counts, dtype=float)
-
-    # 5) Build the Plotly Figure
     fig = go.Figure()
 
     if plot_type == "line":
-        # Simple line+marker plot
-        fig.add_trace(
-            go.Scatter(
-                x=labels,
-                y=counts,
-                mode="lines+markers",
-                name="Number of Applicants",
-            )
-        )
-    else:
-        # Scatter plot
-        fig.add_trace(
-            go.Scatter(
-                x=labels,
-                y=counts,
-                mode="markers",
-                name="Applicants",
-            )
-        )
+        fig.add_trace(go.Scatter(
+            x=labels, y=counts,
+            mode="lines+markers",
+            name="Applicants"
+        ))
+    else:  # scatter + fit
+        fig.add_trace(go.Scatter(
+            x=labels, y=counts,
+            mode="markers",
+            name="Applicants"
+        ))
 
-        # Compute best‐fit line: y = m·x + b, on numeric indices
-        slope, intercept = np.polyfit(x_indices, y_values, 1)
-        y_pred = slope * x_indices + intercept
+        if fit_type == "linear":
+            # Linear fit: y = m x + b
+            m, b = np.polyfit(x_idx, y, 1)
+            y_pred = m * x_idx + b
+            # R²
+            corr_mat = np.corrcoef(y, y_pred)
+            r2 = corr_mat[0,1]**2 if corr_mat.size > 1 else 0.0
+            fig.add_trace(go.Scatter(
+                x=labels, y=y_pred,
+                mode="lines", name="Linear fit"
+            ))
+            eq_text = f"y = {m:.2f}·x + {b:.2f} (R² = {r2:.3f})"
+        else:
+            # Exponential fit: y = a * exp(b x) → ln(y) = ln(a) + b x
+            # Filter out zero or negative y to safely take log
+            mask = y > 0
+            x_pos = x_idx[mask]
+            y_pos = y[mask]
+            ln_y = np.log(y_pos)
+            b, ln_a = np.polyfit(x_pos, ln_y, 1)
+            a = np.exp(ln_a)
+            y_pred_full = a * np.exp(b * x_idx)
+            # Compute R² on original y (for positive region or overall? We'll use positive only)
+            y_pred_pos = a * np.exp(b * x_pos)
+            corr_mat = np.corrcoef(y_pos, y_pred_pos)
+            r2 = corr_mat[0,1]**2 if corr_mat.size > 1 else 0.0
+            fig.add_trace(go.Scatter(
+                x=labels, y=y_pred_full,
+                mode="lines", name="Exponential fit"
+            ))
+            eq_text = f"y = {a:.2f}·e^({b:.2f}·x) (R² = {r2:.3f})"
 
-        # Compute R²
-        r_matrix = np.corrcoef(y_values, y_pred)
-        r2 = r_matrix[0, 1] ** 2 if r_matrix.size > 1 else 0.0
-
-        # Overlay the best‐fit line
-        fig.add_trace(
-            go.Scatter(
-                x=labels,
-                y=y_pred,
-                mode="lines",
-                name="Best-fit Line",
-            )
-        )
-
-        # Annotate equation & R² in the corner
-        eq_text = f"y = {slope:.2f}·x + {intercept:.2f}  (R-sq = {r2:.3f})"
         fig.add_annotation(
-            x=0.05,
-            y=0.95,
-            xref="paper",
-            yref="paper",
-            text=eq_text,
-            showarrow=False,
-            font=dict(size=12),
+            x=0.05, y=0.95, xref="paper", yref="paper",
+            text=eq_text, showarrow=False, font=dict(size=12)
         )
 
-    # 6) Layout tweaks
     fig.update_layout(
         title="Number of Applicants by Rank Group",
         xaxis_title="Rank Group",
         yaxis_title="Number of Applicants",
-        xaxis=dict(tickangle=-45),
+        xaxis=dict(tickangle=-45)
+    )
+    return fig
+
+
+def plot_applicant_bar_scaled(
+    intervals: list[tuple[int, int]],
+    counts: list[int],
+    title: str = "Applicants by Rank Group (Bar Width ∝ Group Size)",
+) -> go.Figure:
+    """
+    Draws a bar chart where:
+      - each bar’s height = applicant count for that interval,
+      - each bar’s width  ∝ (high - low + 1) = number of ranks in the interval.
+
+    The x-axis is continuous; tick labels are the interval strings.
+    """
+    # Compute midpoints and widths
+    mids: list[float] = []
+    widths: list[int] = []
+    labels: list[str] = []
+
+    for (low, high), cnt in zip(intervals, counts):
+        mid = (low + high) / 2
+        w = high - low + 1
+        label = f"{low}-{high}"
+        mids.append(mid)
+        widths.append(w)
+        labels.append(label)
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Bar(
+            x=mids, y=counts, width=widths, marker_color="steelblue", name="Applicants"
+        )
+    )
+
+    # Set tick positions at mids with text = labels
+    fig.update_layout(
+        title=title,
+        xaxis=dict(
+            tickmode="array", tickvals=mids, ticktext=labels, title="Rank Group"
+        ),
+        yaxis=dict(title="Number of Applicants"),
     )
 
     return fig

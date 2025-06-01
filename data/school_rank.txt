@@ -55,7 +55,7 @@ Davidson College
 Lehigh University
 Vassar College
 Grinnell College
-[not included] University of Rochester
+University of Rochester
 Boston College
 Hamilton College
 Mount Holyoke College
@@ -77,7 +77,7 @@ Reed College
 Pitzer College
 Texas A&M University
 William & Mary
-[not included] United States Naval Academy
+United States Naval Academy
 University of Illinois Chicago
 Michigan State University
 Macalester College
@@ -97,7 +97,7 @@ Drexel University
 Oberlin College
 University of Pittsburgh
 Occidental College
-[not included] Dickinson College
+Dickinson College
 Gettysburg College
 Whitman College
 Connecticut College
@@ -113,7 +113,7 @@ Trinity University
 University of the Pacific
 Seattle University
 Union College
-[not included] DePauw University
+DePauw University
 Denison University
 Howard University
 Worcester Polytechnic Institute
@@ -137,16 +137,64 @@ University of Arizona
 Illinois Institute of Technology
 Pepperdine University
 Rhode Island School of Design
-[not included] Yeshiva University
+Yeshiva University
 Sewanee
 Willamette University
 Brigham Young University
 Elon University
-[not included] Hobart and William Smith Colleges
-[not included] The College of Wooster
+Hobart and William Smith Colleges
+The College of Wooster
 University of Georgia
 University of Delaware
-[not included] Furman University
+Furman University
 University of Iowa
 University of San Diego
 Spelman College
+The Catholic University of America
+SUNY Binghamton University
+Berea College
+Rochester Institute of Technology
+Sarah Lawrence College
+Chapman University
+University of Colorado - Boulder
+Allegheny College
+University of Massachusetts - Amherst
+Ohio Northern University
+Stevens Institute of Technology
+University of San Francisco
+Marquette University
+Texas Christian University
+Baylor University
+Muhlenberg College
+Colorado School of Mines
+California Institute of the Arts
+Samford University
+Butler University
+University of Detroit Mercy
+Loyola University Chicago
+Ursinus College
+Fordham University
+Linfield University - McMinnville campus
+St Olaf College
+Virginia Military Institute
+Washington State University
+Kalamazoo College
+Wheaton College (Illinois)
+University of Colorado Denver/Anschutz Medical Campus
+George Mason University
+Ohio Wesleyan University
+Temple University
+St Lawrence University
+Clemson University
+University of California - Riverside
+Lawrence University
+Westmont College
+Gustavus Adolphus College
+California Polytechnic State University - San Luis Obispo
+Saint Mary’s College of California
+The University of Tulsa
+SUNY University at Albany
+Bradley University
+University of the Sciences
+Fairfield University
+Michigan Technological University

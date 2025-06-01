@@ -20,7 +20,10 @@ dependencies = [
     "xlsxwriter>=3.2.3",
 ]
 
-
-
 [tool.marimo.experimental]
 lsp = true
+
+[tool.marimo.save]
+autosave_delay = 1000
+format_on_save = true
+autosave = "after_delay"
