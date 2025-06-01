@@ -17,13 +17,13 @@ Vanderbilt University
 Cornell University
 Rice University
 Washington University in St. Louis
-University of California – Los Angeles
+University of California - Los Angeles
 Emory University
-University of California – Berkeley
+University of California - Berkeley
 University of Southern California
 Georgetown University
 Carnegie Mellon University
-University of Michigan – Ann Arbor
+University of Michigan - Ann Arbor
 Wake Forest University
 University of Virginia
 Georgia Institute of Technology
@@ -31,22 +31,22 @@ New York University
 Tufts University
 University of North Carolina at Chapel Hill
 University of Rochester
-University of California – Santa Barbara
+University of California - Santa Barbara
 University of Florida
-University of California – Irvine
+University of California - Irvine
 Boston College
-University of California – San Diego
-University of California – Davis
+University of California - San Diego
+University of California - Davis
 Boston University
 Brandeis University
 Case Western Reserve University
 William & Mary
 Northeastern University
 Tulane University
-University of Wisconsin – Madison
+University of Wisconsin - Madison
 Villanova University
-University of Illinois – Urbana-Champaign
-University of Texas – Austin
+University of Illinois - Urbana-Champaign
+University of Texas - Austin
 Lehigh University
 Pepperdine University
 Rensselaer Polytechnic Institute
