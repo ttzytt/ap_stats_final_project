@@ -196,7 +196,7 @@ def _(compute_group_admit_rate, joined, sc_dyn_intervs, schools):
 def _(group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
     fig2 = plot_grouped_admit_rate_wide(group_admit_rate, income_labels)
     # fig2.update_traces(visible='legendonly')
-    fig2.write_html("grouped_admit_rate.html")
+    fig2.write_html("./output/grouped_admit_rate.html")
     mo.ui.plotly(fig2)
     return
 

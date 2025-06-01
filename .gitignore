@@ -10,3 +10,6 @@ wheels/
 .venv
 
 __marimo__/
+
+
+/output/*
