@@ -1,7 +1,7 @@
 import polars as pl
 from dataclasses import dataclass
 from organization import School, FamilyIncome
-from scipy.stats import chi2_contingency
+from scipy.stats import chi2_contingency, pearsonr
 
 def compute_admit_rate_by_income(
     joined: pl.DataFrame,
@@ -360,3 +360,94 @@ def generate_intervals_by_applicants(
         start = chosen_end + 1
 
     return intervals, counts
+
+
+@dataclass
+class CorrelationStats:
+    r_value: float
+    p_value: float
+
+
+def compute_correlation_by_group(
+    joined: pl.DataFrame,
+    schools: list[School],
+    intervals: list[tuple[int, int]],
+    decision_col: str = "decision",
+    cumulative: bool = False,
+) -> pl.DataFrame:
+    """
+    For each rank-group interval, compute the Pearson correlation coefficient (r)
+    between income_bracket (treated as an ordered ordinal) and admission outcome
+    (accepted = 1, rejected/other = 0). Returns DataFrame with columns:
+      - group_label: str
+      - corr: struct { r_value: float, p_value: float }
+    """
+    # 1) Build mapping school → rank, then join and filter
+    school_df = pl.DataFrame(
+        {
+            "school": [s.name for s in schools],
+            "rank": [s.rank for s in schools],
+        }
+    )
+    merged = (
+        joined.join(school_df, on="school", how="inner")
+        .filter(pl.col("applied").is_not_null() & (pl.col("applied") != ""))
+        .with_columns(
+            (pl.col(decision_col) == "Accepted").cast(pl.Int64).alias("accepted")
+        )
+        # accepted: 1 if "Accepted", 0 otherwise
+    )
+
+    results: list[dict] = []
+    # Precompute a map from income label → its ordinal index
+    income_order = [fi.label() for fi in FamilyIncome]
+    order_map = {lbl: idx for idx, lbl in enumerate(income_order)}
+
+    for low, high in intervals:
+        if cumulative:
+            cond = pl.col("rank") <= high
+            label = f"1-{high}"
+        else:
+            cond = (pl.col("rank") >= low) & (pl.col("rank") <= high)
+            label = f"{low}-{high}"
+
+        subset = merged.filter(cond)
+        if subset.is_empty():
+            continue
+
+        # 2) Filter out rows where income_bracket is invalid or blank
+        subset = subset.filter(
+            (pl.col("income_bracket").is_not_null())
+            & (pl.col("income_bracket") != "")
+            & pl.col("income_bracket").is_in(income_order)
+        )
+
+        if subset.is_empty():
+            continue
+
+        # 3) Map each row's income_bracket to its ordinal index
+        subset = subset.with_columns(
+            pl.col("income_bracket")
+            .replace(order_map, default=None)
+            .cast(pl.Int64)
+            .alias("income_ord")
+        ).filter(pl.col("income_ord").is_not_null())
+
+        # 4) If fewer than 2 distinct income_ord values or accepted values, skip
+        if subset.select(pl.col("income_ord").unique()).height < 2:
+            continue
+
+        # 5) Extract arrays for Pearson r calculation
+        income_arr = subset.select("income_ord").to_numpy().flatten()
+        accepted_arr = subset.select("accepted").to_numpy().flatten()
+
+        # 6) Compute Pearson correlation
+        try:
+            r_val, p_val = pearsonr(income_arr, accepted_arr)
+        except Exception:
+            r_val, p_val = 0.0, 1.0
+
+        stats = CorrelationStats(r_value=float(r_val), p_value=float(p_val))
+        results.append({"group_label": label, "corr": stats.__dict__})
+
+    return pl.DataFrame(results)

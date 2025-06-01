@@ -357,3 +357,87 @@ def plot_applicant_bar_scaled(
     )
 
     return fig
+
+
+def plot_correlation_by_group(
+    df: pl.DataFrame,
+    title: str = "Income-Admit Correlation by School Group",
+) -> go.Figure:
+    """
+    Given a Polars DataFrame with columns:
+      - 'group_label': str
+      - 'corr': struct with fields 'r_value' and 'p_value'
+
+    Returns a Plotly chart of 'r_value' vs 'group_label', with points colored
+    by significance (p_value < 0.05). The connecting line follows numeric
+    rank‐group order even without Polars categorical ordering.
+    """
+    # 1) Extract r_value and p_value from the Struct column 'corr'
+    df2 = df.with_columns(
+        [
+            pl.col("corr").struct.field("r_value"),
+            pl.col("corr").struct.field("p_value"),
+        ]
+    )
+
+    # 2) Build and add a numeric key 'low_rank' = integer part before the dash in group_label
+    def parse_low(label: str) -> int:
+        return int(label.split("-")[0])
+
+    df2 = df2.with_columns(pl.col("group_label").map_elements(parse_low).alias("low_rank"))
+
+    # 3) Sort by that numeric key
+    df2 = df2.sort("low_rank")
+
+    # 4) Convert to pandas for Plotly
+    pdf = df2.to_pandas()
+
+    # 5) Determine the exact ordered list of group_label
+    ordered_labels = pdf["group_label"].tolist()
+
+    # 6) Mark significance: p_value < 0.05 → True, else False
+    pdf["significant"] = pdf["p_value"] < 0.05
+
+    # 7) Create scatter, passing category_orders to force x‐axis in the correct sequence
+    fig = px.scatter(
+        pdf,
+        x="group_label",
+        y="r_value",
+        color="significant",
+        color_discrete_map={True: "firebrick", False: "steelblue"},
+        category_orders={"group_label": ordered_labels},
+        title=title,
+        labels={"group_label": "Rank Group", "r_value": "Pearson r"},
+        # markers=True,
+    )
+
+    # 8) Add a connecting dashed line in the same order
+    fig.add_trace(
+        go.Scatter(
+            x=ordered_labels,
+            y=pdf["r_value"].tolist(),
+            mode="lines",
+            line=dict(color="gray", dash="dash"),
+            showlegend=False,
+        )
+    )
+
+    # 9) Annotate each point with its rounded r-value
+    for _, row in pdf.iterrows():
+        fig.add_annotation(
+            x=row["group_label"],
+            y=row["r_value"],
+            text=f"{row['r_value']:.2f}",
+            showarrow=False,
+            yshift=10,
+            font=dict(size=10),
+        )
+
+    # 10) Final layout adjustments
+    fig.update_layout(
+        xaxis=dict(tickangle=-45),
+        yaxis=dict(title="Pearson r", range=[-1, 1]),
+        legend_title_text="p < 0.05",
+    )
+
+    return fig

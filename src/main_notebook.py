@@ -18,6 +18,7 @@ def _():
         compute_group_admit_rate,
         compute_chi2_by_group,
         generate_intervals_by_applicants,
+        compute_correlation_by_group
     )
 
     from organization import (
@@ -37,12 +38,14 @@ def _():
         plot_chi2_pvalues,
         plot_applicant_counts,
         plot_applicant_bar_scaled,
+        plot_correlation_by_group
     )
     return (
         FamilyIncome,
         build_apply_and_decision_cols,
         compute_admit_rate_matrix,
         compute_chi2_by_group,
+        compute_correlation_by_group,
         compute_group_admit_rate,
         generate_intervals_by_applicants,
         join_applied_and_decided,
@@ -55,6 +58,7 @@ def _():
         plot_applicant_bar_scaled,
         plot_applicant_counts,
         plot_chi2_pvalues,
+        plot_correlation_by_group,
         plot_grouped_admit_rate_wide,
         unpivot_applied_or_decided,
     )
@@ -193,11 +197,29 @@ def _(compute_group_admit_rate, joined, sc_dyn_intervs, schools):
 
 
 @app.cell
-def _(group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
-    fig2 = plot_grouped_admit_rate_wide(group_admit_rate, income_labels)
-    # fig2.update_traces(visible='legendonly')
-    fig2.write_html("./output/grouped_admit_rate.html")
-    mo.ui.plotly(fig2)
+def _(figs, group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
+    figs.append(plot_grouped_admit_rate_wide(group_admit_rate, income_labels))
+    figs[-1].write_html("./output/grouped_admit_rate.html")
+    mo.ui.plotly(figs[-1])
+    return
+
+
+@app.cell
+def _(
+    compute_group_admit_rate,
+    figs,
+    income_labels,
+    joined,
+    mo,
+    plot_grouped_admit_rate_wide,
+    schools,
+):
+    lg_group_admit_rate = compute_group_admit_rate(
+        joined, schools, [(1, 200)], 20
+    )
+    figs.append(plot_grouped_admit_rate_wide(lg_group_admit_rate, income_labels))
+    figs[-1].write_html("./output/lg_grouped_admit_rate.html")
+    mo.ui.plotly(figs[-1])
     return
 
 
@@ -211,6 +233,22 @@ def _(compute_chi2_by_group, joined, sc_dyn_intervs, schools):
 @app.cell
 def _(chi_sq, figs, mo, plot_chi2_pvalues):
     figs.append(plot_chi2_pvalues(chi_sq))
+    mo.ui.plotly(figs[-1])
+    return
+
+
+@app.cell
+def _(compute_correlation_by_group, joined, sc_dyn_intervs, schools):
+    correlation = compute_correlation_by_group(joined, schools, sc_dyn_intervs)
+    correlation
+    return (correlation,)
+
+
+@app.cell
+def _(correlation, figs, mo, plot_correlation_by_group):
+    figs.append(
+        plot_correlation_by_group(correlation)
+    )
     mo.ui.plotly(figs[-1])
     return
 
