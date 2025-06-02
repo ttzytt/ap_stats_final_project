@@ -117,7 +117,7 @@ ref: https://drive.google.com/drive/folders/1TyPIamNSgPM8LeMRSupOXfkjfz9OyePl
 
 - Higher ranked schools are more competitive
 - Higher ranked schools have higher tuition
-- Rich students might apply more to highly ranked schools
+- Rich students might tend to apply to highly ranked schools
 - Rich students might meet the criteria of highly ranked schools better
 
 ## Which ranking system to use?
@@ -194,7 +194,7 @@ I should make the schools into different groups based on their rankings, otherwi
 ::: {.column width="20%"}
 
 - Given the first group, remember its total applicant 
-- Finding the next group that has the most similar number of applicants as the first group
+- Find the next groups that has the most similar number of applicants as the first group
 - Not enough applicants for the last group
 
 :::
@@ -312,3 +312,5 @@ According to this [New York Times article](https://www.nytimes.com/interactive/2
 ![](./imgs/paper-1.png){fig-align="center"}
 
 # Thank You for Listening!
+
+The slide is available at <https://ttzytt.github.io/ap_stats_final_project/pre>
