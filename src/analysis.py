@@ -3,7 +3,7 @@ import numpy as np
 from dataclasses import dataclass
 from scipy.stats import chi2_contingency, pearsonr
 from organization import School, FamilyIncome
-
+from statsmodels.stats.proportion import proportion_confint
 
 # —————— Helper Functions —————— #
 
@@ -136,6 +136,9 @@ class GroupStats:
     count: int
     total_applied: int
     admit_rate: float
+    lower_ci: float
+    upper_ci: float
+    conf_level: float  # e.g. 0.95
 
 
 def compute_group_admit_rate(
@@ -145,17 +148,24 @@ def compute_group_admit_rate(
     min_count: int = 0,
     decision_col: str = "decision",
     cumulative: bool = False,
+    conf_level: float = 0.95,
+    ci_method: str = "wilson",
 ) -> pl.DataFrame:
     """
-    Compute admit rates aggregated over arbitrary school‐rank intervals.
+    Compute admit rates (and 95% Wilson confidence intervals) aggregated over arbitrary school‐rank intervals.
 
-    Returns a wide DataFrame where each row is one rank‐group and each income‐bracket
-    is a Struct column with fields {count, total_applied, admit_rate}.
+    Returns a wide DataFrame where each row is one rank‐group ("group_label"), and each income‐bracket
+    column is a Struct with fields:
+      {count: int, total_applied: int, admit_rate: float, lower_ci: float, upper_ci: float, conf_level: float}.
+
+    Only includes (group_label, bracket) where count >= min_count.
     """
-    # Preprocess: attach rank & filter, then add 'accepted'
+    # 1) Preprocess: attach rank & filter, then add 'accepted'
     merged = _add_accepted_flag(_attach_rank_and_filter(joined, schools), decision_col)
 
     long_records = []
+    alpha = 1.0 - conf_level
+
     for low, high in intervals:
         if cumulative:
             cond = pl.col("rank") <= high
@@ -168,7 +178,7 @@ def compute_group_admit_rate(
         if subset.is_empty():
             continue
 
-        # Group by income_bracket → count & accepted_sum
+        # 2) Group by income_bracket → count & accepted_sum
         grp = (
             subset.group_by("income_bracket")
             .agg([pl.len().alias("count"), pl.sum("accepted").alias("accepted_sum")])
@@ -177,15 +187,24 @@ def compute_group_admit_rate(
         if grp.is_empty():
             continue
 
+        # 3) Compute total_applied = sum of counts for this group
         total_applied = grp.select(pl.sum("count").alias("total_applied"))[
             "total_applied"
         ][0]
 
+        # 4) For each bracket row, compute admit_rate and Wilson CI
         for row in grp.iter_rows(named=True):
             income_br = row["income_bracket"]
             count = row["count"]
             accepted_sum = row["accepted_sum"]
             admit_rate = (accepted_sum / count * 100) if count > 0 else 0.0
+
+            # Wilson confidence interval (returns proportions in [0,1])
+            lower_prop, upper_prop = proportion_confint(
+                count=accepted_sum, nobs=count, alpha=alpha, method=ci_method
+            )
+            lower_ci = lower_prop * 100
+            upper_ci = upper_prop * 100
 
             long_records.append(
                 {
@@ -194,16 +213,33 @@ def compute_group_admit_rate(
                     "count": count,
                     "total_applied": total_applied,
                     "admit_rate": admit_rate,
+                    "lower_ci": lower_ci,
+                    "upper_ci": upper_ci,
+                    "conf_level": conf_level,
                 }
             )
 
     if not long_records:
         return pl.DataFrame([], schema=[])
 
+    # 5) Build long-format DataFrame
     df_long = pl.DataFrame(long_records)
+
+    # 6) Assemble a Struct column for count/total_applied/admit_rate/lower_ci/upper_ci/conf_level
     df_with_struct = df_long.with_columns(
-        pl.struct(["count", "total_applied", "admit_rate"]).alias("stats")
+        pl.struct(
+            [
+                "count",
+                "total_applied",
+                "admit_rate",
+                "lower_ci",
+                "upper_ci",
+                "conf_level",
+            ]
+        ).alias("stats")
     )
+
+    # 7) Pivot so each income_bracket becomes a Struct column
     df_wide = df_with_struct.pivot(
         on="income_bracket",
         index="group_label",
@@ -211,6 +247,7 @@ def compute_group_admit_rate(
         aggregate_function="first",
     )
 
+    # 8) Reorder columns: group_label first, then income brackets by FamilyIncome order
     ordered_labels = [fi.label() for fi in FamilyIncome]
     present_labels = [lbl for lbl in ordered_labels if lbl in df_wide.columns]
     return df_wide.select(["group_label"] + present_labels)

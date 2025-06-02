@@ -18,7 +18,7 @@ def _():
         compute_group_admit_rate,
         compute_chi2_by_group,
         generate_intervals_by_applicants,
-        compute_income_admit_corr_by_group
+        compute_income_admit_corr_by_group,
     )
 
     from organization import (
@@ -38,7 +38,7 @@ def _():
         plot_chi2_pvalues,
         plot_applicant_counts,
         plot_applicant_bar_scaled,
-        plot_correlation_by_group
+        plot_correlation_by_group,
     )
     return (
         FamilyIncome,
@@ -190,7 +190,7 @@ def _(figs, income_labels, matrix, mo, plot_admit_rate_matrix):
 def _(compute_group_admit_rate, joined, sc_dyn_intervs, schools):
     # school_grp_interv = [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)]
     group_admit_rate = compute_group_admit_rate(
-        joined, schools, sc_dyn_intervs, 20
+        joined, schools, sc_dyn_intervs, 20, ci_method='normal'
     )
     group_admit_rate
     return (group_admit_rate,)
@@ -214,9 +214,7 @@ def _(
     plot_grouped_admit_rate_wide,
     schools,
 ):
-    lg_group_admit_rate = compute_group_admit_rate(
-        joined, schools, [(1, 200)], 20
-    )
+    lg_group_admit_rate = compute_group_admit_rate(joined, schools, [(1, 200)], 20)
     figs.append(plot_grouped_admit_rate_wide(lg_group_admit_rate, income_labels))
     figs[-1].write_html("./output/lg_grouped_admit_rate.html")
     mo.ui.plotly(figs[-1])
@@ -239,16 +237,16 @@ def _(chi_sq, figs, mo, plot_chi2_pvalues):
 
 @app.cell
 def _(compute_income_admit_corr_by_group, joined, sc_dyn_intervs, schools):
-    correlation = compute_income_admit_corr_by_group(joined, schools, sc_dyn_intervs)
+    correlation = compute_income_admit_corr_by_group(
+        joined, schools, sc_dyn_intervs
+    )
     correlation
     return (correlation,)
 
 
 @app.cell
 def _(correlation, figs, mo, plot_correlation_by_group):
-    figs.append(
-        plot_correlation_by_group(correlation)
-    )
+    figs.append(plot_correlation_by_group(correlation))
     mo.ui.plotly(figs[-1])
     return
 

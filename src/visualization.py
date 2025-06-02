@@ -3,6 +3,7 @@ import plotly.express as px
 import polars as pl
 import numpy as np 
 from organization import School, FamilyIncome
+import pandas as pd
 
 def plot_admit_rate(
     rates_sorted: pl.DataFrame,
@@ -90,15 +91,14 @@ def plot_grouped_admit_rate_wide(
     """
     Given a wide Polars DataFrame `wide_df` where:
       - each row is a group_label
-      - each income-bracket column is a Struct with fields {count, total_applied, admit_rate}
-    this function:
+      - each income-bracket column is a Struct with fields:
+          {count, total_applied, admit_rate, lower_ci, upper_ci, conf_level}
+
+    This function:
       1) Renames each struct’s fields to include the bracket name as suffix
-      2) Unnests each struct column individually, avoiding duplicate column names
-      3) Uses Polars’ melt to pivot admit_rate columns into long form
-      4) Plots a Plotly line chart directly from Polars, with:
-           • x = income_bracket (ordered by `income_order`)
-           • y = admit_rate
-           • color = group_label
+      2) Unnests each struct column one by one
+      3) Gathers admit_rate, lower_ci, upper_ci into long form
+      4) Plots a Plotly line chart with error bars (CI) for each rank group
     """
     # 1) Identify all struct columns (all except "group_label")
     struct_cols = [c for c in wide_df.columns if c != "group_label"]
@@ -107,12 +107,15 @@ def plot_grouped_admit_rate_wide(
 
     df = wide_df
 
-    # 2) For each struct column, rename its fields to avoid collisions
+    # 2) Rename each struct’s fields to avoid collisions
     for bracket in struct_cols:
         new_fields = [
             f"{bracket}_count",
             f"{bracket}_total_applied",
             f"{bracket}_admit_rate",
+            f"{bracket}_lower_ci",
+            f"{bracket}_upper_ci",
+            f"{bracket}_conf_level",
         ]
         df = df.with_columns(
             df[bracket].struct.rename_fields(new_fields).alias(bracket)
@@ -122,46 +125,80 @@ def plot_grouped_admit_rate_wide(
     for bracket in struct_cols:
         df = df.unnest(bracket)
 
-    # 4) Identify all admit_rate columns (they end with "_admit_rate")
+    # 4) Identify all admit_rate, lower_ci, upper_ci columns
     admit_rate_cols = [col for col in df.columns if col.endswith("_admit_rate")]
+    lower_cols = [col for col in df.columns if col.endswith("_lower_ci")]
+    upper_cols = [col for col in df.columns if col.endswith("_upper_ci")]
 
-    # 5) Melt admit_rate columns into long form using Polars
-    df_long = df.melt(
-        id_vars=["group_label"],
-        value_vars=admit_rate_cols,
-        variable_name="income_bracket_field",
-        value_name="admit_rate",
-    )
+    # 5) Build a long DataFrame with fields: group_label, income_bracket, admit_rate, lower_ci, upper_ci
+    #    We know each bracket name is the prefix before "_admit_rate", so we can extract bracket.
+    records = []
+    for row in df.iter_rows(named=True):
+        grp = row["group_label"]
+        for rate_col, low_col, high_col in zip(admit_rate_cols, lower_cols, upper_cols):
+            bracket = rate_col.replace("_admit_rate", "")
+            records.append(
+                {
+                    "group_label": grp,
+                    "income_bracket": bracket,
+                    "admit_rate": row[rate_col],
+                    "lower_ci": row[low_col],
+                    "upper_ci": row[high_col],
+                }
+            )
 
-    # 6) Extract raw income_bracket by stripping the "_admit_rate" suffix
-    df_long = df_long.with_columns(
-        pl.col("income_bracket_field")
-        .str.replace("_admit_rate$", "", literal=False)
-        .alias("income_bracket")
-    )
+    df_long = pl.DataFrame(records)
 
-    # 7) Cast income_bracket to categorical for plotly ordering
+    # 6) Cast income_bracket to categorical for ordering
     df_long = df_long.with_columns(
         pl.col("income_bracket").cast(pl.Categorical).alias("income_bracket")
     )
 
-    # 8) Plot using Plotly Express directly from Polars
-    fig = px.line(
-        df_long.to_pandas(),  # Plotly Express supports Polars too; if using a version that supports it, pass df_long directly instead of .to_pandas()
-        x="income_bracket",
-        y="admit_rate",
-        color="group_label",
-        title=title,
-        labels={
-            "income_bracket": "Income Bracket",
-            "admit_rate": "Admission Rate (%)",
-            "group_label": "Rank Group",
-        },
-        category_orders={"income_bracket": income_order},
-    )
+    # 7) Convert to pandas for Plotly
+    pdf = df_long.to_pandas()
 
-    # 9) Rotate x-axis labels for readability
-    fig.update_layout(xaxis=dict(tickangle=-45), legend_title_text="Rank Group")
+    # 8) Plot: for each group_label, one trace with line + markers + error bars
+    fig = go.Figure()
+    for grp in pdf["group_label"].unique():
+        sub = pdf[pdf["group_label"] == grp]
+        # Ensure order by income_order
+        sub = sub.set_index("income_bracket").loc[income_order].reset_index()
+        hovertemplate = """
+        Group: %{customdata[0]}<br>
+        Income Bracket: %{x}<br>
+        Admission Rate: %{y:.3f}%<br>
+        CI: (%{customdata[1]:.3f}, %{customdata[2]:.3f}), range=%{customdata[3]:.3f}<br>
+        """
+        fig.add_trace(
+            go.Scatter(
+                x=sub["income_bracket"],
+                y=sub["admit_rate"],
+                customdata=np.column_stack(
+                    (np.repeat(grp, len(sub)), sub["lower_ci"], sub["upper_ci"], 
+                     sub["upper_ci"] - sub["lower_ci"])
+                ),
+                mode="lines+markers",
+                name=grp,
+                error_y=dict(
+                    type="data",
+                    symmetric=False,
+                    array=sub["upper_ci"] - sub["admit_rate"],
+                    arrayminus=sub["admit_rate"] - sub["lower_ci"],
+                    thickness=1,
+                    width=3,
+                ),
+                hovertemplate=hovertemplate,
+            )
+        )
+
+    # 9) Layout tweaks
+    fig.update_layout(
+        title=title,
+        xaxis_title="Income Bracket",
+        yaxis_title="Admission Rate (%)",
+        xaxis=dict(tickangle=-45),
+        legend_title_text="Rank Group",
+    )
 
     return fig
 
@@ -384,7 +421,7 @@ def plot_correlation_by_group(
     def parse_low(label: str) -> int:
         return int(label.split("-")[0])
 
-    df2 = df2.with_columns(pl.col("group_label").map_elements(parse_low).alias("low_rank"))
+    df2 = df2.with_columns(pl.col("group_label").map_elements(parse_low, return_dtype=pl.Int64).alias("low_rank"))
 
     # 3) Sort by that numeric key
     df2 = df2.sort("low_rank")
@@ -397,7 +434,7 @@ def plot_correlation_by_group(
 
     # 6) Mark significance: p_value < 0.05 → True, else False
     pdf["significant"] = pdf["p_value"] < 0.05
-
+    print(pdf['p_value'])
     # 7) Create scatter, passing category_orders to force x‐axis in the correct sequence
     fig = px.scatter(
         pdf,
@@ -407,7 +444,8 @@ def plot_correlation_by_group(
         color_discrete_map={True: "firebrick", False: "steelblue"},
         category_orders={"group_label": ordered_labels},
         title=title,
-        labels={"group_label": "Rank Group", "r_value": "Pearson r"},
+        labels={"group_label": "Rank Group", "r_value": "r", "p_value": "p"},
+        hover_data=["p_value"],
         # markers=True,
     )
 
@@ -428,6 +466,7 @@ def plot_correlation_by_group(
             x=row["group_label"],
             y=row["r_value"],
             text=f"{row['r_value']:.2f}",
+
             showarrow=False,
             yshift=10,
             font=dict(size=10),
