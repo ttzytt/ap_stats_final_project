@@ -1,0 +1,331 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="720" height="405" viewBox="0 0 720 405">
+<defs>
+<clipPath id="clip_251">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000091553H720V405.0001H0Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_252">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_253">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 349.2H55.80001V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<mask id="mask_254">
+<g transform="matrix(.36233766,0,0,.36233766,0,-.000011444092)">
+<image id="image_255" width="154" height="154" xlink:href="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJoAAACaCAAAAAB0lA7LAAAACXBIWXMAAA7EAAAO
+xAGVKw4bAAAAtklEQVR4nO3OoQ2AMAAAwe6/JxaBICElgQkwZ6j4m+DGdixqH+ez
+qHscfxe+zGqgmqgmqolqopqoJqqJaqKaqCaqiWqimqgmqolqopqoJqqJaqKaqCaq
+iWqimqgmqolqopqoJqqJaqKaqCaqiWqimqgmqolqopqoJqqJaqKaqCaqiWqimqgm
+qolqopqoJqqJaqKaqCaqiWqimqgmqolqopqoJqqJaqKaqCaqiWqimqgm5jjnoq4X
+94M4XJf082EAAAAASUVORK5CYII="/>
+</g>
+</mask>
+<clipPath id="clip_257">
+<path transform="matrix(1,0,0,-1,0,405)" d="M114.96 41.4H605.04V342H114.96Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_258">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M0 0H459.76V282H0Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_259">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M.75 256.43H459.75V281.255H.75Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_260">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M.75 256.43H459.75V281.255H.75Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_261">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M217.85 256.43H295.225V281.255H217.85Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_262">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M217.85 256.43H295.225V281.255H217.85Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_263">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M299.73 256.43H377.105V281.255H299.73Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_264">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M299.73 256.43H377.105V281.255H299.73Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_265">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M381.63 256.43H459.005V281.255H381.63Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_266">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M381.63 256.43H459.005V281.255H381.63Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_267">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M.75 .0014343H459.75V281.25144H.75Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_268">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M0 .0014343H459.75V282.00144H0Z" clip-rule="evenodd"/>
+</clipPath>
+</defs>
+<g>
+<g clip-path="url(#clip_251)">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000030518H720V405.00004H0Z" fill="#f1f0e9" fill-rule="evenodd"/>
+</g>
+<g clip-path="url(#clip_252)">
+<text fill="#303030" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="27.984" font-family="ArialMT"><tspan y="-365.18" x="69.528 86.62622 102.185329 117.74443 125.66391 144.32924 152.1088 167.66791 175.44747">T20 Stats</tspan></text>
+</g>
+<g clip-path="url(#clip_253)">
+<g mask="url(#mask_254)">
+<g transform="matrix(.36233766,0,0,.36233766,0,-.000011444092)">
+<image id="image_256" width="154" height="154" xlink:href="data:image/png;base64,
+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"/>
+</g>
+</g>
+</g>
+<g clip-path="url(#clip_257)">
+<g clip-path="url(#clip_258)">
+<g clip-path="url(#clip_259)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-271.48" x="166.77 173.52454 179.49706">No.</tspan></text>
+</g>
+<g clip-path="url(#clip_260)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-258.68" x="156.25 163.00453 168.97705 174.99845 177.9896 180.98075 186.97283">Applied</tspan></text>
+</g>
+<g clip-path="url(#clip_261)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-271.48" x="228.38 235.13454 240.38372 245.63289 251.62497 257.5975 260.62776 266.61985 272.59239 277.87089">Acceptance</tspan></text>
+</g>
+<g clip-path="url(#clip_262)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-258.68" x="245.65 252.40453 258.3966 261.39753">Rate</tspan></text>
+</g>
+<g clip-path="url(#clip_263)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-271.48" x="307.25 315.51966 321.51176 324.51268 328.26628 331.25743 336.5066 342.47914 345.4996 351.4917 354.4926 357.48377 363.4563">Matriculation</tspan></text>
+</g>
+<g clip-path="url(#clip_264)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-258.68" x="327.52 334.2745 340.2666 343.26753">Rate</tspan></text>
+</g>
+<g clip-path="url(#clip_265)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-271.48" x="392.13 398.88453 404.1337 410.10624 413.1267 416.11787 422.8626 429.61714 435.58967 438.61015 444.58268">Avg. SAT of</tspan></text>
+</g>
+<g clip-path="url(#clip_266)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="Arial" font-weight="bold"><tspan y="-258.68" x="398.15 404.9045 410.1537 415.40287 421.39497 427.3675 430.39775 436.38984">Accepted</tspan></text>
+</g>
+<g clip-path="url(#clip_267)">
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-245.9" x="9.025">1</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-245.9" x="21.775 28.51975 31.520676 33.75915 39.008329 44.247728 49.4969 52.48805 57.737226">Princeton</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-245.9" x="166.77 172.0199 177.26979">624</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-245.9" x="242.65 247.89917 253.14835 256.1395 261.38868">13.9%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-245.9" x="329.03 334.2799 339.52983">44%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-245.9" x="410.15 415.3999 420.6498 425.89973">1532</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-233.13" x="9.025">2</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-233.13" x="21.775 28.529526 33.778699 36.77962 40.533224 45.7824 48.78332 54.032499">Harvard </tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-233.13" x="166.77 172.0199 177.26979">755</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-233.13" x="242.65 247.89917 253.14835 256.1395 261.38868">15.2%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-233.13" x="329.03 334.2799 339.52983">80%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-233.13" x="410.15 415.3999 420.6498 425.89973">1523</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-220.33" x="9.025">3</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-220.33" x="21.775 28.529526 33.778699 36.017175 41.266347 49.535997 54.785169 57.023645">Columbia</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-220.33" x="166.77 172.0199 177.26979">688</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-220.33" x="242.65 247.89917 253.14835 256.1395 261.38868">17.4%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-220.33" x="329.03 334.2799 339.52983">34%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-220.33" x="410.15 415.3999 420.6498 425.89973">1535</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-207.55" x="9.025">4</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-207.55" x="21.775 30.044651 32.2929">MIT</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-207.55" x="166.77 172.0199 177.26979">473</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-207.55" x="242.65 247.89917 253.14835 256.1395 261.38868">18.0%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-207.55" x="329.03 334.2799 339.52983">71%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-207.55" x="410.15 415.3999 420.6498 425.89973">1553</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-194.78" x="9.025">5</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-194.78" x="21.775 28.51975 33.768926 36.0074">Yale</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-194.78" x="166.77 172.0199 177.26979">745</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-194.78" x="242.65 247.89917 253.14835 256.1395 261.38868">16.9%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-194.78" x="329.03 334.2799 339.52983">54%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-194.78" x="410.15 415.3999 420.6498 425.89973">1536</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-181.98" x="9.025">6</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-181.98" x="21.775 28.51975 31.510903 36.760076 42.00925 44.2575 49.50667 52.507596">Stanford</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-181.98" x="166.77 172.0199 177.26979">824</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-181.98" x="242.65 247.89917 253.14835 256.1395 261.38868">14.1%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-181.98" x="329.03 334.2799 339.52983">74%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-181.98" x="410.15 415.3999 420.6498 425.89973">1522</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-169.2" x="9.025">7</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-169.2" x="21.775 28.529526 33.778699 36.017175 41.256574 46.50575 51.754926">Chicago</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-169.2" x="166.77 172.0199 177.26979">431</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-169.2" x="242.65 247.89917 253.14835 256.1395 261.38868">15.5%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-169.2" x="329.03 334.2799 339.52983">55%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-169.2" x="410.15 415.3999 420.6498 425.89973">1523</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-156.43" x="9.025">8</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-156.43" x="21.775 28.51975 33.768926 39.0181 44.267278 49.506677 54.746076 56.98455 60.73815 65.98733 71.2365 73.47498">Pennsylvania</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-156.43" x="166.77 172.0199 177.26979">714</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-156.43" x="242.65 247.89917 253.14835 256.1395 261.38868">21.6%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-156.43" x="329.03 334.2799 339.52983">53%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-156.43" x="410.15 415.3999 420.6498 425.89973">1529</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-143.63" x="9.025">9</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-143.63" x="21.775 28.529526 33.778699 36.77962 39.77077 45.019948 51.774477 57.023649 62.263048 65.254199 70.50337 73.504299">Northwestern</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-143.63" x="166.77 172.0199 177.26979">594</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-143.63" x="242.65 247.89917 253.14835 256.1395 261.38868">19.9%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-143.63" x="329.03 334.2799 339.52983">31%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-143.63" x="410.15 415.3999 420.6498 425.89973">1494</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-130.85" x="4.5 8.999901">10</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-130.85" x="21.775 28.529526 33.778699 39.018098">Duke</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-130.85" x="166.77 172.0199 177.26979">605</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-130.85" x="242.65 247.89917 253.14835 256.1395 261.38868">22.0%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-130.85" x="329.03 334.2799 339.52983">37%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-130.85" x="410.15 415.3999 420.6498 425.89973">1537</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-118.08" x="4.5 8.999901">11</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-118.08" x="21.775 26.271498 31.520674 36.769849 42.019025 47.258424 50.249574 57.004098 62.25327 67.50245 72.741847 74.98032 80.2295">Johns Hopkins</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-118.08" x="166.77 172.0199 177.26979">380</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-118.08" x="242.65 247.89917 253.14835 256.1395 261.38868">25.8%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-118.08" x="329.03 334.2799 339.52983">32%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-118.08" x="410.15 415.3999 420.6498 425.89973">1517</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-105.28" x="4.5 8.999901">12</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-105.28" x="21.775 28.529526 33.778699 36.017175 41.26635 46.515523 51.75492">CalTech</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-105.28" x="166.77 172.0199 177.26979">186</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-105.28" x="242.65 247.89917 253.14835 256.1395 261.38868">28.0%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-105.28" x="329.03 334.2799 339.52983">25%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-105.28" x="410.15 415.3999 420.6498 425.89973">1572</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-92.501" x="4.5 8.999901">13</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-92.501" x="21.775 28.529526 33.778699 36.77962 39.77077 48.04042 53.289594 58.53877 61.52992">Dartmouth</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-92.501" x="166.77 172.0199 177.26979">390</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-92.501" x="242.65 247.89917 253.14835 256.1395 261.38868">23.1%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-92.501" x="329.03 334.2799 339.52983">36%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-92.501" x="410.15 415.3999 420.6498 425.89973">1520</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-79.701" x="4.5 8.999901">14</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-79.701" x="21.775 28.51975 31.520676 36.769849 43.524377">Brown</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-79.701" x="166.77 172.0199 177.26979">666</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-79.701" x="242.65 247.89917 253.14835 256.1395 261.38868">17.4%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-79.701" x="329.03 334.2799 339.52983">49%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-79.701" x="410.15 415.3999 420.6498 425.89973">1508</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-66.926" x="4.5 8.999901">15</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-66.926" x="21.775 28.529526 33.778699 36.769849 39.77077 45.019948 48.011098 54.765626 60.014799 68.28445">Notre Dame</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-66.926" x="166.77 172.0199 177.26979">144</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-66.926" x="242.65 247.89917 253.14835 256.1395 261.38868">50.0%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-66.926" x="329.03 334.2799 339.52983">38%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-66.926" x="410.15 415.3999 420.6498 425.89973">1471</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-54.151" x="4.5 8.999901">16</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-54.151" x="21.775 28.51975 33.768926 39.0181 44.267278 49.516454 52.517377 57.766553 60.005029 62.243505">Vanderbilt</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-54.151" x="166.77 172.0199 177.26979">468</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-54.151" x="242.65 247.89917 253.14835 256.1395 261.38868">31.0%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-54.151" x="329.03 334.2799 339.52983">21%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-54.151" x="410.15 415.3999 420.6498 425.89973">1523</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-41.351" x="4.5 8.999901">17</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-41.351" x="21.775 28.529526 33.778699 36.77962 42.028799 47.277975 49.51645">Cornell</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-41.351" x="166.77 172.0199 177.26979">837</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-41.351" x="242.65 247.89917 253.14835 256.1395 261.38868">23.5%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-41.351" x="329.03 334.2799 339.52983">44%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-41.351" x="410.15 415.3999 420.6498 425.89973">1500</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-28.576" x="4.5 8.999901">18</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-28.576" x="21.775 28.529526 30.768 36.007398">Rice</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-28.576" x="166.77 172.0199 177.26979">362</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-28.576" x="242.65 247.89917 253.14835 256.1395 261.38868">22.9%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-28.576" x="329.03 334.2799 339.52983">28%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-28.576" x="410.15 415.3999 420.6498 425.89973">1531</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-15.801" x="4.5 8.999901">19</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-15.801" x="21.775 31.540225 36.7894 42.028799 47.277975">WashU</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-15.801" x="166.77 172.0199 177.26979">408</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-15.801" x="242.65 247.89917 253.14835 256.1395 261.38868">28.7%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-15.801" x="329.03 334.2799 339.52983">33%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-15.801" x="410.15 415.3999 420.6498 425.89973">1522</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="8.275" font-family="Arial" font-style="italic"><tspan y="-3.0014" x="4.5 8.999901">20</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-3.0014" x="21.775 28.529526 35.28405 40.533224">UCLA</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-3.0014" x="166.77 172.0199 177.26979">970</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-3.0014" x="242.65 247.89917 253.14835 256.1395 261.38868">37.5%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-3.0014" x="329.03 334.2799 339.52983">24%</tspan></text>
+<text xml:space="preserve" transform="matrix(1.0659293 0 .000000048000165 1.0659611 114.96 363.6)" font-size="9.775" font-family="ArialMT"><tspan y="-3.0014" x="410.15 415.3999 420.6498 425.89973">1485</tspan></text>
+</g>
+<g clip-path="url(#clip_268)">
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" stroke-width=".75" stroke-linecap="square" stroke-linejoin="round" fill="none" stroke="#000000" d="M135.6 256.05H213.73"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M135.23 255.68H214.105V256.43H135.23Z" fill-rule="evenodd"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" stroke-width=".75" stroke-linecap="square" stroke-linejoin="round" fill="none" stroke="#000000" d="M217.48 256.05H295.6"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M217.1 255.68H295.975V256.43H217.1Z" fill-rule="evenodd"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" stroke-width=".75" stroke-linecap="square" stroke-linejoin="round" fill="none" stroke="#000000" d="M299.35 256.05H377.48"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M298.98 255.68H377.855V256.43H298.98Z" fill-rule="evenodd"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" stroke-width=".75" stroke-linecap="square" stroke-linejoin="round" fill="none" stroke="#000000" d="M381.25 256.05H459.38"/>
+<path transform="matrix(1.0659293,0,-.000000048000165,-1.0659611,114.96,363.6)" d="M380.88 255.68H459.755V256.43H380.88Z" fill-rule="evenodd"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

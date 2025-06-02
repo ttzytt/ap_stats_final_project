@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="720" height="405" viewBox="0 0 720 405">
+<defs>
+<clipPath id="clip_5">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000091553H720V405.0001H0Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_6">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_7">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+</defs>
+<g>
+<g clip-path="url(#clip_5)">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000030518H720V405.00004H0Z" fill="#f1f0e9" fill-rule="evenodd"/>
+</g>
+<g clip-path="url(#clip_6)">
+<text fill="#303030" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="32.04" font-family="Arial" font-weight="bold"><tspan y="-192.74" x="116.4 135.97644 155.55289 166.22222 184.03646 192.84746 201.49826">Total #</tspan></text>
+</g>
+<g clip-path="url(#clip_7)">
+<text fill="#303030" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="32.04" font-family="Arial" font-weight="bold"><tspan y="-192.74" x="228.12 247.69644 258.36576 267.1127 290.24559 308.0598 325.87406 345.35438 364.93083 384.50727 402.3215 420.00758 437.8218 446.40855 457.07786 476.6543 487.3236 496.10258 514.8139 523.721 541.5353 550.34628 568.1605 585.87869">of Responses (n) = 3,882</tspan></text>
+</g>
+</g>
+</svg>

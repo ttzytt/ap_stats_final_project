@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="720" height="405" viewBox="0 0 720 405">
+<defs>
+<clipPath id="clip_0">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000091553H720V405.0001H0Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_2">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_3">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_4">
+<path transform="matrix(1,0,0,-1,0,405)" d="M.000010729 0H720V405H.000010729Z" clip-rule="evenodd"/>
+</clipPath>
+</defs>
+<g>
+<g clip-path="url(#clip_0)">
+<path transform="matrix(1,0,0,-1,0,405)" d="M0 .000030518H720V405.00004H0Z" fill="#f1f0e9" fill-rule="evenodd"/>
+</g>
+<g clip-path="url(#clip_1)">
+<text fill="#57aa8c" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="39.96" font-family="Arial" font-weight="bold"><tspan y="-223.22" x="306.79 322.33445 333.44334 362.29447 384.51225">r/A2C</tspan></text>
+</g>
+<g clip-path="url(#clip_2)">
+<text fill="#57aa8c" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="39.984" font-family="Arial" font-weight="bold"><tspan y="-175.22" x="142.25 153.36556 175.59667">&#x2018;19</tspan></text>
+</g>
+<g clip-path="url(#clip_3)">
+<text fill="#57aa8c" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="39.984" font-family="Arial" font-weight="bold"><tspan y="-175.22" x="197.81">-</tspan></text>
+</g>
+<g clip-path="url(#clip_4)">
+<text fill="#57aa8c" xml:space="preserve" transform="matrix(1 0 -0 1 0 405)" font-size="39.984" font-family="Arial" font-weight="bold"><tspan y="-175.22" x="211.13 222.24556 244.47667 266.70777 277.98326 306.85169 329.0828 353.51304 375.74415 400.01445 422.24555 433.60099 462.46943 484.70054 506.93165 531.3619 542.4774 555.7921">&#x2018;20 Census Results</tspan></text>
+</g>
+</g>
+</svg>

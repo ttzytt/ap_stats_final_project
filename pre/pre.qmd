@@ -1,0 +1,313 @@
+---
+title: |
+  Famly Income,
+  
+  School Ranking,
+
+  and Acceptance Rate
+author: "Tony Zhao"
+institute: "AP Statistics, Period 1, PRISMS"
+format:
+  revealjs:
+    incremental: true
+    code-overflow: wrap
+    show-slide-number: all
+    transition: slide
+    height: 1000
+    width: 1600
+    center: true
+---
+
+# Central Question 
+
+How does family income affect university acceptance rate in the United States?
+
+# Data Source 
+
+- A cencus published by u/powereddeath on r/ApplyingToCollege (A2C)
+- A2C contains 1.2M members, the largest college admissions subreddit
+- The cencus is for 2020 (class of 2024), because the raw data of newer year is not published (didn't reply to me after contact). 
+- Raw data avaialble [here](https://drive.google.com/drive/folders/1TyPIamNSgPM8LeMRSupOXfkjfz9OyePl), original post [here](https://www.reddit.com/r/ApplyingToCollege/comments/gucq7r/ra2c_2020_census_results_class_of_2024/)
+
+# Overview of the Cencus 
+
+ref: https://drive.google.com/drive/folders/1TyPIamNSgPM8LeMRSupOXfkjfz9OyePl
+
+## {background-image="./cencus_slds/2.svg" background-size=100%}
+
+## {background-image="./cencus_slds/3.svg" background-size=100%}
+
+## {background-image="./cencus_slds/4.svg" background-size=100%}
+
+## {background-image="./cencus_slds/5.svg" background-size=100%}
+
+## {background-image="./cencus_slds/6.svg" background-size=100%}
+
+## {background-image="./cencus_slds/7.svg" background-size=100%}
+
+## {background-image="./cencus_slds/8.svg" background-size=100%}
+
+## {background-image="./cencus_slds/9.svg" background-size=100%}
+
+## {background-image="./cencus_slds/10.svg" background-size=100%}
+
+## {background-image="./cencus_slds/11.svg" background-size=100%}
+
+## {background-image="./cencus_slds/12.svg" background-size=100%}
+
+## Top States of Residence 
+
+1. California (22%)
+2. New York (8%)
+3. New Jersey (6%)
+4. Texas (6%)
+5. Massachusetts (4%)
+
+
+## Summary 
+
+- The dataset is definitely not representative of the US population, but it is representative of the A2C community.
+- More male than female
+- Much more Asian than national average (48% vs [6%](https://en.wikipedia.org/wiki/Race_and_ethnicity_in_the_United_States#:~:text=East%20Asian%20and,Asian%20(1.74%25)))
+- Very left leaning (liberal + progressive = 65%, right-wing + conservative = 5%)
+- Super high standardized test scores
+  - average SAT: 1470, national average is [1050](https://satsuite.collegeboard.org/scores/what-scores-mean/what-is-good-score#:~:text=The%20average%20SAT%20score%20is%20around%201050)
+  - average ACT: 33, national average is [19.4](https://www.act.org/content/act/en/products-and-services/the-act/scores/average-act-test-scores-by-state.html#:~:text=36-,19.4,-51)
+- Somehow similar to PRISMS?\
+- Rich: 24% of families have income above 250k, whereas national median [80k in 2023](https://www.census.gov/library/publications/2024/demo/p60-282.html#:~:text=Highlights,median%20household%20income%20since%202019.)
+
+# How income affects acceptance rate
+
+## 
+:::: {.columns}
+
+::: {.column width="75%"}
+
+```{=html}
+<iframe src="../output/lg_grouped_admit_rate.html" width=100% height=1000px frameborder="0"></iframe>
+```
+:::
+
+
+::: {.column width="25%"}
+
+- Initially increases
+- Reaching a peak
+- Then decreases at the last income bracket
+- 95% CI for 1st income bracket is very wide, as sample size is small
+- CI for last income bracket is narrower, as the sample size is larger 
+
+:::
+
+::::
+
+# Is this trend same across all schools?
+
+## 
+
+- Different financial aid policies
+- Different competitiveness
+- Private vs public
+- Need-blind vs need-aware
+- Different financial status of the school
+
+
+## Hypothesis: ranking is a major factor
+
+- Higher ranked schools are more competitive
+- Higher ranked schools have higher tuition
+- Rich students might apply more to highly ranked schools
+- Rich students might meet the criteria of highly ranked schools better
+
+## Which ranking system to use?
+
+- US News & World Report
+  - Most popular 
+  - Focus on US schools 
+  - Liberal arts colleges are separated from universities
+  - But the cencus contains both LACs and universities
+- QS World University Rankings
+  - Focus on global schools
+  - Not as popular in the US
+  - Still no LACs
+- [WSJ/Times Higher Education](https://www.timeshighereducation.com/rankings/united-states/2020)
+  - Combining LACs and Universities!!
+
+##
+
+I should make the schools into different groups based on their rankings, otherwise the sample size of each school will be too small to draw any conclusions, and will result in a lot of noise.
+
+##
+
+
+
+:::: {.columns}
+::: {.column width="75%"}
+
+```{=html}
+<iframe src="../output/applicant_counts_fixed_intervals_linear_fit.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+:::
+::: {.column width="25%"}
+
+- $R^2 = 0.702$ with linear best-fit line
+- Outliers in the two ends of x-axis 
+- slope=-226, 226 less students per increase in 10-school ranking group
+
+:::
+::::
+
+## 
+
+:::: {.columns}
+::: {.column width="75%"}
+
+```{=html}
+<iframe src="../output/applicant_counts_fixed_intervals_exp_fit.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+:::
+::: {.column width="25%"}
+
+- $R^2 = 0.962$ with exponential best-fit line
+- Seems like the popularity of schools decreases exponentially as the ranking increases
+- rank group 191-200 has only 20 applicants, which is too low
+
+:::
+::::
+
+## How about dynamic grouping?
+
+
+##
+
+:::: {.columns}
+::: {.column width="80%"}
+
+```{=html}
+<iframe src="../output/scaled_applicant_bar.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+:::
+::: {.column width="20%"}
+
+- Given the first group, remember its total applicant 
+- Finding the next group that has the most similar number of applicants as the first group
+- Not enough applicants for the last group
+
+:::
+::::
+
+## Let's see if the trend changed once we consider school ranking
+
+##
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_combined.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+## A little too messy, let's split it into more graphs
+
+##
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_1-9.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+##
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_10-30.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+
+##
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_31-73.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+##
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_74-200.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+## 
+
+```{=html}
+<iframe src="../output/grouped_admit_rate_subplot.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+## 
+
+Seems like both high-ranking schools and low-rankings schools consider family income the most, while mid-ranking schools consider family income less.
+
+# Verifying the Observed Trend Using Statistical Tests
+
+## Chi-Squared Test of Independence
+
+- Null Hypothesis: Family income and acceptance rate are independent
+- Alternative Hypothesis: Family income and acceptance rate are dependent
+- p-value represents the probability of observing the data if the null hypothesis is true
+
+## 
+
+```{=html}
+<iframe src="../output/chi2_pvalues.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+## 
+
+But chi-square dosn't tell us the direction of the relationship. 
+
+## Regression Slope Test
+
+- Null Hypothesis: The slope of the regression line is zero (no relationship)
+- Alternative Hypothesis: The slope of the regression line is not zero (there is a relationship)
+- p-value represents the probability of observing the data if the null hypothesis is true
+- r-value represents the strength and direction of the relationship
+
+## 
+
+```{=html}
+<iframe src="../output/correlation_by_group.html" width=1600px height=1000px frameborder="0"></iframe>
+```
+
+# Possible Explanations for the Observed Trend
+
+## Need-blind Admissions
+
+- Top universities are often need-blind: 
+  - Princeton
+  - Harvard 
+  - Stanford
+  - MIT
+  - Pennsylvania 
+  - Cornell
+  - ...
+- In fact, all top 10 universities on the WSJ/Times Ranking [are need-blind](https://blog.prepscholar.com/need-blind-colleges-list#:~:text=Csunyo/Unsplash-,A%20Complete%20List%20of%20Need%2DBlind%20Colleges%20in%20the%20United%20States,-Here%20is%20a)
+- These universities are financially capable of admitting students without considering their financial status
+
+## Wholistic Review
+
+Top universities often practice wholistic review, which means they consider more than just test scores and GPA. They considers the difficulties that financially challenged students face, and how they overcome those difficulties.
+
+For example, both [Princeton](https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/cds_2223_princeton.pdf) and [MIT](https://ir.mit.edu/projects/2023-24-common-data-set/) marked first generation and work experience as "considered" in their common data set (CDS).
+
+## The richest students are not reflected in the data
+
+According to this [New York Times article](https://www.nytimes.com/interactive/2023/07/24/upshot/ivy-league-elite-college-admissions.html) based on [this research](https://opportunityinsights.org/wp-content/uploads/2023/07/CollegeAdmissions_Paper.pdf), students with top 0.1% parent income are 2.2x more likely to be admitted to top schools than average. 
+
+![](./imgs/nyt-1.png){fig-align="center"}
+
+## More recruited atheletes are rich
+
+![](./imgs/nyt-2.png){fig-align="center"}
+
+## Public Universities are Less Biased on Family Income
+
+![](./imgs/paper-1.png){fig-align="center"}
+
+# Thank You for Listening!
