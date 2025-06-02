@@ -314,3 +314,4 @@ According to this [New York Times article](https://www.nytimes.com/interactive/2
 # Thank You for Listening!
 
 The slide is available at <https://ttzytt.github.io/ap_stats_final_project/pre>
+The source code is available at <https://github.com/ttzytt/ap_stats_final_project>
