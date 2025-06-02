@@ -480,3 +480,28 @@ def plot_correlation_by_group(
     )
 
     return fig
+
+
+def hide_traces(fig: go.Figure, trace_names: list[str], invis_type = 'legendonly') -> None:
+    for trace in fig.data:
+        if trace.name in trace_names:
+            trace.visible = invis_type
+        else:
+            trace.visible = True
+
+
+def show_traces(fig: go.Figure, trace_names: list[str], invis_type='legendonly') -> None:
+
+    for trace in fig.data:
+        if trace.name in trace_names:
+            trace.visible = True
+        else: 
+            trace.visible = invis_type
+
+
+def add_traces_to_subplot(
+    combined_fig: go.Figure, traces, row: int, col: int
+) -> None:
+
+    for tr in traces:
+        combined_fig.add_trace(tr, row=row, col=col)

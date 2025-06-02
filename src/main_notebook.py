@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.10"
+__generated_with = "0.13.15"
 app = marimo.App(width="medium")
 
 
@@ -10,7 +10,7 @@ def _():
     import polars as pl
     import sys
     import os
-
+    from plotly.subplots import make_subplots
     # Ensure the current directory is in the Python path
     sys.path.append(".")
     from analysis import (
@@ -39,9 +39,13 @@ def _():
         plot_applicant_counts,
         plot_applicant_bar_scaled,
         plot_correlation_by_group,
+        show_traces,
+        hide_traces,
+        add_traces_to_subplot
     )
     return (
         FamilyIncome,
+        add_traces_to_subplot,
         build_apply_and_decision_cols,
         compute_admit_rate_matrix,
         compute_chi2_by_group,
@@ -51,6 +55,7 @@ def _():
         join_applied_and_decided,
         load_ranked_schools,
         load_survey_data,
+        make_subplots,
         mo,
         os,
         pl,
@@ -60,6 +65,7 @@ def _():
         plot_chi2_pvalues,
         plot_correlation_by_group,
         plot_grouped_admit_rate_wide,
+        show_traces,
         unpivot_applied_or_decided,
     )
 
@@ -140,6 +146,7 @@ def _(figs, joined, mo, plot_applicant_counts, schools):
         for i in range(1, len(schools) + 1, fixed_interv_sz)
     ]
     figs.append(plot_applicant_counts(joined, schools, fixed_intervs, "scatter"))
+    figs[-1].write_html("./output/applicant_counts_fixed_intervals_linear_fit.html")
     mo.ui.plotly(figs[-1])
     return (fixed_intervs,)
 
@@ -151,6 +158,7 @@ def _(figs, fixed_intervs, joined, mo, plot_applicant_counts, schools):
             joined, schools, fixed_intervs, "scatter", "exponential"
         )
     )
+    figs[-1].write_html("./output/applicant_counts_fixed_intervals_exp_fit.html")
     mo.ui.plotly(figs[-1])
     return
 
@@ -167,6 +175,7 @@ def _(generate_intervals_by_applicants, joined, schools):
 @app.cell
 def _(figs, mo, plot_applicant_bar_scaled, sc_dyn_interv_cnts, sc_dyn_intervs):
     figs.append(plot_applicant_bar_scaled(sc_dyn_intervs, sc_dyn_interv_cnts))
+    figs[-1].write_html("./output/scaled_applicant_bar.html")
     mo.ui.plotly(figs[-1])
     return
 
@@ -190,17 +199,50 @@ def _(figs, income_labels, matrix, mo, plot_admit_rate_matrix):
 def _(compute_group_admit_rate, joined, sc_dyn_intervs, schools):
     # school_grp_interv = [(1, 5), (6, 10), (11, 15), (16, 20), (21, 40), (41, 60), (61, 100)]
     group_admit_rate = compute_group_admit_rate(
-        joined, schools, sc_dyn_intervs, 20, ci_method='normal'
+        joined, schools, sc_dyn_intervs, 20, ci_method="normal"
     )
     group_admit_rate
     return (group_admit_rate,)
 
 
 @app.cell
-def _(figs, group_admit_rate, income_labels, mo, plot_grouped_admit_rate_wide):
+def _(
+    add_traces_to_subplot,
+    figs,
+    group_admit_rate,
+    income_labels,
+    make_subplots,
+    mo,
+    plot_grouped_admit_rate_wide,
+    show_traces,
+):
+    combined_fig = make_subplots(2, 2, subplot_titles=['1-9', '10-30', '31-73', '74-200'])
+
     figs.append(plot_grouped_admit_rate_wide(group_admit_rate, income_labels))
-    figs[-1].write_html("./output/grouped_admit_rate.html")
-    mo.ui.plotly(figs[-1])
+    figs[-1].write_html("./output/grouped_admit_rate_combined.html")
+
+    show_traces(figs[-1], ['1-5', '6-9'], invis_type=False)
+    figs[-1].write_html("./output/grouped_admit_rate_1-9.html")
+    add_traces_to_subplot(combined_fig, figs[-1].data, row=1, col=1)
+
+    figs.append(plot_grouped_admit_rate_wide(group_admit_rate, income_labels))
+    show_traces(figs[-1], ['10-15', '16-24', '25-30'], invis_type=False)
+    figs[-1].write_html("./output/grouped_admit_rate_10-30.html")
+    add_traces_to_subplot(combined_fig, figs[-1].data, row=1, col=2)
+
+    figs.append(plot_grouped_admit_rate_wide(group_admit_rate, income_labels))
+    show_traces(figs[-1], ['31-37', '38-56', '57-73'], invis_type=False)
+    figs[-1].write_html("./output/grouped_admit_rate_31-73.html")
+    add_traces_to_subplot(combined_fig, figs[-1].data, row=2, col=1)
+
+    figs.append(plot_grouped_admit_rate_wide(group_admit_rate, income_labels))
+    show_traces(figs[-1], ['74-109', '110-200'], invis_type=False)
+    figs[-1].write_html("./output/grouped_admit_rate_74-200.html")
+    add_traces_to_subplot(combined_fig, figs[-1].data, row=2, col=2)
+
+    figs.append(combined_fig)
+    figs[-1].write_html("./output/grouped_admit_rate_subplot.html")
+    mo.ui.plotly(combined_fig)
     return
 
 
@@ -231,6 +273,7 @@ def _(compute_chi2_by_group, joined, sc_dyn_intervs, schools):
 @app.cell
 def _(chi_sq, figs, mo, plot_chi2_pvalues):
     figs.append(plot_chi2_pvalues(chi_sq))
+    figs[-1].write_html("./output/chi2_pvalues.html")
     mo.ui.plotly(figs[-1])
     return
 
@@ -247,6 +290,7 @@ def _(compute_income_admit_corr_by_group, joined, sc_dyn_intervs, schools):
 @app.cell
 def _(correlation, figs, mo, plot_correlation_by_group):
     figs.append(plot_correlation_by_group(correlation))
+    figs[-1].write_html("./output/correlation_by_group.html")
     mo.ui.plotly(figs[-1])
     return
 
