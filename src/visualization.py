@@ -446,7 +446,7 @@ def plot_correlation_by_group(
         title=title,
         labels={"group_label": "Rank Group", "r_value": "r", "p_value": "p"},
         hover_data=["p_value"],
-        # markers=True,
+        size=[.8] * len(pdf),
     )
 
     # 8) Add a connecting dashed line in the same order
@@ -469,7 +469,7 @@ def plot_correlation_by_group(
 
             showarrow=False,
             yshift=10,
-            font=dict(size=10),
+            font=dict(size=15),
         )
 
     # 10) Final layout adjustments

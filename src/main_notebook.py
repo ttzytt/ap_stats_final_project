@@ -84,7 +84,7 @@ def _():
     import plotly.io as pio
     import plotly.graph_objects as go
     font_template = pio.templates['plotly']
-    font_template.layout.font.size = 18
+    font_template.layout.font.size = 22
     pio.templates['large_font'] = font_template
     pio.templates.default = 'large_font'
     return

@@ -302,7 +302,7 @@ According to this [New York Times article](https://www.nytimes.com/interactive/2
 
 ![](./imgs/nyt-1.png){fig-align="center"}
 
-## More recruited atheletes are rich
+## Financial is a huge factor in atheletes recruitment
 
 ![](./imgs/nyt-2.png){fig-align="center"}
 
