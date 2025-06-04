@@ -1,9 +1,10 @@
 import plotly.graph_objects as go
 import plotly.express as px
 import polars as pl
-import numpy as np 
+import numpy as np
 from organization import School, FamilyIncome
 import pandas as pd
+
 
 def plot_admit_rate(
     rates_sorted: pl.DataFrame,
@@ -169,13 +170,21 @@ def plot_grouped_admit_rate_wide(
         Admission Rate: %{y:.3f}%<br>
         CI: (%{customdata[1]:.3f}, %{customdata[2]:.3f}), range=%{customdata[3]:.3f}<br>
         """
+        sub["income_bracket"] = (
+            sub["income_bracket"].astype(str).str.replace("$", r"&#36;", regex=False)
+        )
+
         fig.add_trace(
             go.Scatter(
                 x=sub["income_bracket"],
                 y=sub["admit_rate"],
                 customdata=np.column_stack(
-                    (np.repeat(grp, len(sub)), sub["lower_ci"], sub["upper_ci"], 
-                     sub["upper_ci"] - sub["lower_ci"])
+                    (
+                        np.repeat(grp, len(sub)),
+                        sub["lower_ci"],
+                        sub["upper_ci"],
+                        sub["upper_ci"] - sub["lower_ci"],
+                    )
                 ),
                 mode="lines+markers",
                 name=grp,
@@ -257,7 +266,7 @@ def plot_applicant_counts(
     schools: list[School],
     intervals: list[tuple[int, int]],
     plot_type: str = "line",
-    fit_type: str = "linear"
+    fit_type: str = "linear",
 ) -> go.Figure:
     """
     Plots number of applicants per rank‐group interval. Offers:
@@ -267,20 +276,20 @@ def plot_applicant_counts(
     If fit_type == "exponential", fits y = a * exp(b * x) on numeric index.
     """
     # 1) Attach rank
-    school_df = pl.DataFrame({
-        "school": [s.name for s in schools],
-        "rank":   [s.rank for s in schools],
-    })
-    merged = (
-        joined
-        .join(school_df, on="school", how="inner")
-        .filter(pl.col("applied").is_not_null() & (pl.col("applied") != ""))
+    school_df = pl.DataFrame(
+        {
+            "school": [s.name for s in schools],
+            "rank": [s.rank for s in schools],
+        }
+    )
+    merged = joined.join(school_df, on="school", how="inner").filter(
+        pl.col("applied").is_not_null() & (pl.col("applied") != "")
     )
 
     # 2) Count applicants per interval
     labels: list[str] = []
     counts: list[int] = []
-    for (low, high) in intervals:
+    for low, high in intervals:
         label = f"{low}-{high}"
         subset = merged.filter((pl.col("rank") >= low) & (pl.col("rank") <= high))
         cnt = subset.height
@@ -293,17 +302,11 @@ def plot_applicant_counts(
     fig = go.Figure()
 
     if plot_type == "line":
-        fig.add_trace(go.Scatter(
-            x=labels, y=counts,
-            mode="lines+markers",
-            name="Applicants"
-        ))
+        fig.add_trace(
+            go.Scatter(x=labels, y=counts, mode="lines+markers", name="Applicants")
+        )
     else:  # scatter + fit
-        fig.add_trace(go.Scatter(
-            x=labels, y=counts,
-            mode="markers",
-            name="Applicants"
-        ))
+        fig.add_trace(go.Scatter(x=labels, y=counts, mode="markers", name="Applicants"))
 
         if fit_type == "linear":
             # Linear fit: y = m x + b
@@ -311,11 +314,10 @@ def plot_applicant_counts(
             y_pred = m * x_idx + b
             # R²
             corr_mat = np.corrcoef(y, y_pred)
-            r2 = corr_mat[0,1]**2 if corr_mat.size > 1 else 0.0
-            fig.add_trace(go.Scatter(
-                x=labels, y=y_pred,
-                mode="lines", name="Linear fit"
-            ))
+            r2 = corr_mat[0, 1] ** 2 if corr_mat.size > 1 else 0.0
+            fig.add_trace(
+                go.Scatter(x=labels, y=y_pred, mode="lines", name="Linear fit")
+            )
             eq_text = f"y = {m:.2f}·x + {b:.2f} (R² = {r2:.3f})"
         else:
             # Exponential fit: y = a * exp(b x) → ln(y) = ln(a) + b x
@@ -330,23 +332,29 @@ def plot_applicant_counts(
             # Compute R² on original y (for positive region or overall? We'll use positive only)
             y_pred_pos = a * np.exp(b * x_pos)
             corr_mat = np.corrcoef(y_pos, y_pred_pos)
-            r2 = corr_mat[0,1]**2 if corr_mat.size > 1 else 0.0
-            fig.add_trace(go.Scatter(
-                x=labels, y=y_pred_full,
-                mode="lines", name="Exponential fit"
-            ))
+            r2 = corr_mat[0, 1] ** 2 if corr_mat.size > 1 else 0.0
+            fig.add_trace(
+                go.Scatter(
+                    x=labels, y=y_pred_full, mode="lines", name="Exponential fit"
+                )
+            )
             eq_text = f"y = {a:.2f}·e^({b:.2f}·x) (R² = {r2:.3f})"
 
         fig.add_annotation(
-            x=0.05, y=0.95, xref="paper", yref="paper",
-            text=eq_text, showarrow=False, font=dict(size=12)
+            x=0.05,
+            y=0.95,
+            xref="paper",
+            yref="paper",
+            text=eq_text,
+            showarrow=False,
+            font=dict(size=16),
         )
 
     fig.update_layout(
         title="Number of Applicants by Rank Group",
         xaxis_title="Rank Group",
         yaxis_title="Number of Applicants",
-        xaxis=dict(tickangle=-45)
+        xaxis=dict(tickangle=-45, tickfont=dict(size=14)),
     )
     return fig
 
@@ -388,7 +396,11 @@ def plot_applicant_bar_scaled(
     fig.update_layout(
         title=title,
         xaxis=dict(
-            tickmode="array", tickvals=mids, ticktext=labels, title="Rank Group"
+            tickmode="array",
+            tickvals=mids,
+            ticktext=labels,
+            title="Rank Group",
+            tickfont=dict(size=14),
         ),
         yaxis=dict(title="Number of Applicants"),
     )
@@ -421,7 +433,11 @@ def plot_correlation_by_group(
     def parse_low(label: str) -> int:
         return int(label.split("-")[0])
 
-    df2 = df2.with_columns(pl.col("group_label").map_elements(parse_low, return_dtype=pl.Int64).alias("low_rank"))
+    df2 = df2.with_columns(
+        pl.col("group_label")
+        .map_elements(parse_low, return_dtype=pl.Int64)
+        .alias("low_rank")
+    )
 
     # 3) Sort by that numeric key
     df2 = df2.sort("low_rank")
@@ -434,7 +450,7 @@ def plot_correlation_by_group(
 
     # 6) Mark significance: p_value < 0.05 → True, else False
     pdf["significant"] = pdf["p_value"] < 0.05
-    print(pdf['p_value'])
+    print(pdf["p_value"])
     # 7) Create scatter, passing category_orders to force x‐axis in the correct sequence
     fig = px.scatter(
         pdf,
@@ -446,7 +462,7 @@ def plot_correlation_by_group(
         title=title,
         labels={"group_label": "Rank Group", "r_value": "r", "p_value": "p"},
         hover_data=["p_value"],
-        size=[.8] * len(pdf),
+        size=[0.8] * len(pdf),
     )
 
     # 8) Add a connecting dashed line in the same order
@@ -466,7 +482,6 @@ def plot_correlation_by_group(
             x=row["group_label"],
             y=row["r_value"],
             text=f"{row['r_value']:.2f}",
-
             showarrow=False,
             yshift=10,
             font=dict(size=15),
@@ -475,14 +490,16 @@ def plot_correlation_by_group(
     # 10) Final layout adjustments
     fig.update_layout(
         xaxis=dict(tickangle=-45),
-        yaxis=dict(title="Pearson r"),
+        yaxis=dict(title="r-value"),
         legend_title_text="p < 0.05",
     )
 
     return fig
 
 
-def hide_traces(fig: go.Figure, trace_names: list[str], invis_type = 'legendonly') -> None:
+def hide_traces(
+    fig: go.Figure, trace_names: list[str], invis_type="legendonly"
+) -> None:
     for trace in fig.data:
         if trace.name in trace_names:
             trace.visible = invis_type
@@ -490,18 +507,18 @@ def hide_traces(fig: go.Figure, trace_names: list[str], invis_type = 'legendonly
             trace.visible = True
 
 
-def show_traces(fig: go.Figure, trace_names: list[str], invis_type='legendonly') -> None:
+def show_traces(
+    fig: go.Figure, trace_names: list[str], invis_type="legendonly"
+) -> None:
 
     for trace in fig.data:
         if trace.name in trace_names:
             trace.visible = True
-        else: 
+        else:
             trace.visible = invis_type
 
 
-def add_traces_to_subplot(
-    combined_fig: go.Figure, traces, row: int, col: int
-) -> None:
+def add_traces_to_subplot(combined_fig: go.Figure, traces, row: int, col: int) -> None:
 
     for tr in traces:
         combined_fig.add_trace(tr, row=row, col=col)

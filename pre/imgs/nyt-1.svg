@@ -1,0 +1,92 @@
+<svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="600" height="450"
+    aria-label="A line chart showing the relative admissions rate at elite colleges by parent income, among students with the same test scores.">
+    <defs></defs>
+    <g class="layercake-layout-svg_g" transform="translate(0, 80)"><text
+            class="axis label svelte-15xcpwq" x="0" y="360" text-anchor="start"
+            dominant-baseline="text-bottom">
+            <tspan dy="-1" class="arrow svelte-15xcpwq">←</tspan>
+            <tspan dy="1">Poorer</tspan>
+        </text> <text
+            class="axis middle-label svelte-15xcpwq" x="50%" y="360" text-anchor="middle"
+            dominant-baseline="text-bottom">Parents’ income rank</text> <text
+            class="axis label svelte-15xcpwq" x="100%" y="360" text-anchor="end"
+            dominant-baseline="text-bottom">Richer <tspan dy="-1" class="arrow svelte-15xcpwq">→</tspan></text>←
+        LOWER INCOME <text class="annotation svelte-ivr83g" x="596.6910526315789"
+            y="-67.09693098275045" text-anchor="end">TOP 0.1%</text> <text
+            class="strong svelte-ivr83g" x="596.6910526315789" y="-47.09693098275045"
+            text-anchor="end">
+            <tspan x="596.6910526315789">2.2<tspan class="x svelte-ivr83g" dx="1">x</tspan> likelier</tspan>
+            <tspan x="596.6910526315789" dy="16px">admission</tspan>
+        </text> <g
+            class="axis x-axis svelte-1yr486o">
+            <g class="tick tick-0 svelte-1yr486o" transform="translate(30.89473684210526,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">10th</text>
+            </g>
+            <g class="tick tick-1 svelte-1yr486o" transform="translate(154.4736842105263,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">30th</text>
+            </g>
+            <g class="tick tick-2 svelte-1yr486o" transform="translate(278.05263157894734,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">50th</text>
+            </g>
+            <g class="tick tick-3 svelte-1yr486o" transform="translate(401.63157894736844,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">70th</text>
+            </g>
+            <g class="tick tick-4 svelte-1yr486o" transform="translate(525.2105263157895,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">90th</text>
+            </g>
+            <g class="tick tick-5 svelte-1yr486o" transform="translate(586.3821052631579,310)">
+                <line class="tick-mark svelte-1yr486o" y1="0" y2="8" x1="0" x2="0"></line>
+                <text x="0" y="23" dx="" dy="" text-anchor="middle" class="svelte-1yr486o">99.9</text>
+            </g>
+        </g> <g
+            class="axis y-axis" transform="translate(0, 0)">
+            <g class="tick tick--1 svelte-1niw6z7" transform="translate(0, 295.23809523809524)">
+                <line class="gridline svelte-1niw6z7" x1="0" x2="587" y1="0" y2="0"></line>
+                <text x="0" y="0" dx="0" dy="-6" class="svelte-1niw6z7" style="text-anchor: start;">Half
+        as likely to be admitted</text>
+            </g>
+            <g class="tick tick-0 svelte-1niw6z7" transform="translate(0, 147.61904761904762)">
+                <line class="gridline svelte-1niw6z7" x1="0" x2="587" y1="0" y2="0"></line>
+                <text x="0" y="0" dx="0" dy="-6" class="svelte-1niw6z7" style="text-anchor: start;">Average
+        admissions rate</text>
+            </g>
+            <g class="tick tick-1 svelte-1niw6z7" transform="translate(0, 0)">
+                <line class="gridline svelte-1niw6z7" x1="0" x2="587" y1="0" y2="0"></line>
+                <text x="0" y="0" dx="0" dy="-6" class="svelte-1niw6z7" style="text-anchor: start;">Twice
+        as likely to be admitted</text>
+            </g>
+        </g> <path
+            class="path-line svelte-nkf4rn"
+            d="M0,115.00305837198906L61.78947368421052,92.30298956044314L123.57894736842104,97.35904217203382L185.36842105263156,97.3263803148464L247.15789473684208,113.32043848357065L308.9473684210526,124.42939496767808L370.7368421052631,142.73774651816086L432.52631578947364,175.1737965660361L494.31578947368416,180.34970496012184L540.6578947368421,190.57639853467302L559.1947368421053,171.79467298647168L565.3736842105263,170.6358523692014L571.5526315789474,145.967121816763L577.7315789473683,137.05941423771552L583.6015789473685,99.62384010128126L586.6910526315789,-17.09693098275045"
+            stroke="#D35400" stroke-width="3.5"></path> <circle cx="0" cy="115.00305837198906" r="5"
+            fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="61.78947368421052" cy="92.30298956044314" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="123.57894736842104" cy="97.35904217203382"
+            r="5" fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="185.36842105263156" cy="97.3263803148464" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="247.15789473684208" cy="113.32043848357065"
+            r="5" fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="308.9473684210526" cy="124.42939496767808" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="370.7368421052631" cy="142.73774651816086"
+            r="5" fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="432.52631578947364" cy="175.1737965660361" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="494.31578947368416" cy="180.34970496012184"
+            r="5" fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="540.6578947368421" cy="190.57639853467302" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="559.1947368421053" cy="171.79467298647168"
+            r="5" fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="565.3736842105263" cy="170.6358523692014" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="571.5526315789474" cy="145.967121816763" r="5"
+            fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="577.7315789473683" cy="137.05941423771552" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle><circle cx="583.6015789473685" cy="99.62384010128126" r="5"
+            fill="#D35400" stroke="white" stroke-width="1.25"></circle><circle
+            cx="586.6910526315789" cy="-17.09693098275045" r="5" fill="#D35400" stroke="white"
+            stroke-width="1.25"></circle></g>
+</svg>
